@@ -1,6 +1,8 @@
 package particles;
 
-import javax.media.opengl.GL;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -8,8 +10,8 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
-import particles.primitives.Box;
-import particles.primitives.Model;
+import particles.math.Quaternion;
+import particles.objects.Particle;
 
 
 @SuppressWarnings("serial")
@@ -18,6 +20,7 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 	private final static float[] CLEAR_COLOUR = new float[] { 0.0f, 0.0f, 0.0f, 0.0f };
 	private final GLU glUtils = new GLU();
 	private final float FIELD_OF_VIEW = 45, DEFAULT_NEAR = 0.5f, DEFAULT_FAR = 5;
+	private final float MAX_ROTATIONAL_SPEED = 0.1f;
 	
 	public final static float[] DEFUALT_FACE_COLOUR = new float[] { 0.5f, 0.5f, 0.5f, 1.0f };
 	public final static float[] DEFAULT_OUTLINE_COLOUR = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -26,6 +29,9 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 	private int width, height;
 	private float aspect;
 	private WorldBox worldBox;
+	private Particle testParticle; //TODO: this is just a test, remove later
+	private Quaternion cameraQuat, cameraUpQuat;
+	private float deltaX, deltaY;
 	
 	public ParticleCanvas(GLCapabilities capab) {
 		super(capab);
@@ -48,6 +54,18 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		
 		worldBox = new WorldBox(0.0f, 0.0f, 0.0f, 2, 2, 2);
+		testParticle = new Particle(0, 0, 0, 0.25f);
+		cameraQuat = new Quaternion(0.0f, 0.0f, 0.0f, 2.0f);
+		cameraUpQuat = new Quaternion(0.0f, 0.0f, 1.0f, 0.0f);
+		
+		deltaX = 0.0f; deltaY = 0.0f;
+		
+		(new Timer()).scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				update();
+				repaint();
+			}
+		}, 1000, 1000/60);
 	}
 
 	public void dispose(GLAutoDrawable drawable) {
@@ -75,10 +93,21 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 		setupProjection(gl);
 	}
 	
+	public void changeDelta(float deltaX, float deltaY)
+	{
+		this.deltaX = deltaX;
+		this.deltaY = deltaY;
+	}
+	
 	/* ========================================================
 	 * Helper/Private functions
 	 * ========================================================
 	 */
+	
+	private void update()
+	{
+		
+	}
 	
 	private void initParticleCanvas()
 	{
@@ -96,11 +125,12 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		
-		glUtils.gluLookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		glUtils.gluLookAt(cameraQuat.getX(), cameraQuat.getY(), cameraQuat.getZ(), 0.0f, 0.0f, 0.0f, cameraUpQuat.getX(), cameraUpQuat.getY(), cameraUpQuat.getZ());
 
 		gl.glColor3f(1.0f, 1.0f, 1.0f);
 		
 		worldBox.drawWorld(gl);
+		testParticle.draw(gl, glUtils);
 				
 		gl.glFlush();
 	}
