@@ -32,7 +32,6 @@ public class SimpleColourMaterial implements Material {
 		gl.glColor4f(matColour[0], matColour[1], matColour[2], matColour[3]);
 	}
 
-
 	public void unsetMaterials(GL2 gl) {
 		gl.glColor4f(ParticleCanvas.DEFUALT_FACE_COLOUR[0], ParticleCanvas.DEFUALT_FACE_COLOUR[1], ParticleCanvas.DEFUALT_FACE_COLOUR[2], 
 				ParticleCanvas.DEFUALT_FACE_COLOUR[3]);

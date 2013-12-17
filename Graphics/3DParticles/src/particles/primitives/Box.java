@@ -5,38 +5,110 @@ import java.util.ArrayList;
 import javax.media.opengl.GL2;
 
 import particles.ParticleCanvas;
+import particles.materials.DefaultOutlineMaterial;
 import particles.materials.Material;
 import particles.materials.SimpleColourMaterial;
+import particles.transformations.Transformation;
+import particles.transformations.TranslationTransformation;
 
 public class Box implements Model {
 	
 	private ArrayList<float[]> vertices;
 	private ArrayList<int[][]> faces;
 	private ArrayList<Material> materials;
+	private Transformation modelTransform;
+	private float x, y, z;
 	
 	public Box()
 	{
+		modelTransform = null;
+		
+		initBox();
+	}
+	
+	public Box(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		
+		modelTransform = new TranslationTransformation(x, y, z);
+		
+		initBox();
+	}
+	
+	public Box(Transformation modelTransformation)
+	{
+		this.modelTransform = modelTransformation;
+		
 		initBox();
 	}
 	
 	public void draw(GL2 gl) {
+		Material faceMaterial;
+		
+		if(modelTransform != null)
+		{
+			gl.glPushMatrix();
+			modelTransform.transform(gl);
+		}
+			
 		for(int[][] face: faces)
 		{
+			faceMaterial = materials.get(face[1][0]);
 			
+			faceMaterial.setMaterial(gl);
+			
+			gl.glBegin(GL2.GL_TRIANGLES);
+			
+			drawFace(gl, face[0]);
+			
+			gl.glEnd();
+			
+			faceMaterial.unsetMaterials(gl);
 		}
+		
+		if(modelTransform != null)
+			gl.glPopMatrix();
 	}
 	
 	public void drawOutline(GL2 gl) {
+		Material faceMaterial = new DefaultOutlineMaterial();
 		
+		if(modelTransform != null)
+		{
+			gl.glPushMatrix();
+			modelTransform.transform(gl);
+		}
+			
+		for(int[][] face: faces)
+		{
+			faceMaterial.setMaterial(gl);
+			
+			gl.glBegin(GL2.GL_LINE_LOOP);
+			
+			drawFace(gl, face[0]);
+			
+			gl.glEnd();
+			
+			faceMaterial.unsetMaterials(gl);
+		}
+		
+		if(modelTransform != null)
+			gl.glPopMatrix();
 	}
 	
-	private void drawFace(GL2 gl, int[] faceVertices, Material mat)
+	private void drawFace(GL2 gl, int[] faceVertices)
 	{
-		mat.setMaterial(gl);
-		
-		
-		
-		mat.unsetMaterials(gl);
+		int i;
+		float[] vertex;
+
+		for(i = 0; i < faceVertices.length; i++)
+		{
+			vertex = vertices.get(faceVertices[i]);
+			
+			gl.glVertex3f(vertex[0], vertex[1], vertex[2]);
+		}
 	}
 
 	private void initBox()
@@ -75,9 +147,9 @@ public class Box implements Model {
 		faces.add(new int[][] { {2, 6, 7}, {0} });
 		faces.add(new int[][] { {2, 1, 6}, {0} });
 		faces.add(new int[][] { {1, 5, 6}, {0} });
-		faces.add(new int[][] { {1, 5, 0}, {0} });
-		faces.add(new int[][] { {0, 5, 4}, {0} });
-		faces.add(new int[][] { {4, 6, 7}, {0} });
+		faces.add(new int[][] { {0, 5, 1}, {0} });
+		faces.add(new int[][] { {0, 4, 5}, {0} });
+		faces.add(new int[][] { {4, 7, 6}, {0} });
 		faces.add(new int[][] { {4, 6, 5}, {0} });
 	}
 	
