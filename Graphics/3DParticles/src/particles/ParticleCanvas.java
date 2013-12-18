@@ -25,6 +25,7 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 	public final static float[] DEFUALT_FACE_COLOUR = new float[] { 0.5f, 0.5f, 0.5f, 1.0f };
 	public final static float[] DEFAULT_OUTLINE_COLOUR = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
 	public final static float DEFAULT_OUTLINE_WIDTH = 2.0f;
+	public final static float DEFAULT_CAMERA_DISTANCE = 2.0f;
 	
 	private int width, height;
 	private float aspect;
@@ -106,6 +107,13 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener{
 	
 	private void update()
 	{
+		rotateCamera();
+	}
+	
+	private void rotateCamera()
+	{
+		float cameraXAngleChange = deltaX * MAX_ROTATIONAL_SPEED, cameraYAngleChange = deltaY * MAX_ROTATIONAL_SPEED;
+		
 		
 	}
 	
