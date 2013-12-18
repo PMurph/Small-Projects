@@ -46,6 +46,36 @@ public class WorldBox {
 		gl.glPopMatrix();
 	}
 	
+	public float getSizeX()
+	{
+		return sizeX;
+	}
+	
+	public float getSizeY()
+	{
+		return sizeY;
+	}
+	
+	public float getSizeZ()
+	{
+		return sizeZ;
+	}
+	
+	public float getPosX()
+	{
+		return -1.0f + this.positionX;
+	}
+	
+	public float getPoxY()
+	{
+		return -1.0f + this.positionY;
+	}
+	
+	public float getPosZ()
+	{
+		return -1.0f + this.positionZ;
+	}
+	
 	private Transformation initModelTransformation() {
 		CustomTransformation transform = new CustomTransformation();
 		

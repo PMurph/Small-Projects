@@ -33,6 +33,19 @@ public class Quaternion {
 		return new Quaternion(w, x, y, z);
 	}
 	
+	public Vector castToVector()
+	{
+		return new Vector(x, y, z);
+	}
+	
+	public void scalarMultiplication(float scalarVal)
+	{
+		w *= scalarVal;
+		x *= scalarVal;
+		y *= scalarVal;
+		z *= scalarVal;
+	}
+	
 	public void normalize()
 	{
 		float sum = (float)Math.sqrt(w*w + x*x + y*y + z*z);

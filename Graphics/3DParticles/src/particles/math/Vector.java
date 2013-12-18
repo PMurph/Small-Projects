@@ -18,6 +18,11 @@ public class Vector {
 				x * other.getY() - y * other.getX());
 	}
 	
+	public Quaternion castToQuat()
+	{
+		return new Quaternion(0, x, y, z);
+	}
+	
 	public float getX()
 	{
 		return x;

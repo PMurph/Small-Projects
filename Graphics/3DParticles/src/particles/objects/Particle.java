@@ -4,10 +4,13 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
+import particles.WorldBox;
+
 public class Particle {
 	private final static int DEFAULT_SLICES = 23;
 	private final static int DEFAULT_STACKS = 23;
 	private final static float DEFAULT_COLOUR[] = new float[] { 0.25f, 0.25f, 0.25f, 1.0f };
+	private final static float MIN_RADIUS = 0.05f, MAX_RADIUS = 0.25f;
 	
 	private float posX, posY, posZ;
 	private float radius;
@@ -40,5 +43,17 @@ public class Particle {
 		
 		glu.gluDeleteQuadric(sphere);
 		gl.glPopMatrix();
+	}
+	
+	public static Particle genRandParticle(WorldBox wBox)
+	{
+		Particle newParticle = null;
+		float x, y, z, radius;
+		
+		radius = ((float)Math.random() * (MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
+		x = ((float)Math.random()) * (wBox.getSizeX() - 2*radius); //TODO: Finish this up
+		
+		
+		return newParticle;
 	}
 }
