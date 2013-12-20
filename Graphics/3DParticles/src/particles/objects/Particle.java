@@ -11,6 +11,7 @@ public class Particle {
 	private final static int DEFAULT_STACKS = 23;
 	private final static float DEFAULT_COLOUR[] = new float[] { 0.25f, 0.25f, 0.25f, 1.0f };
 	private final static float MIN_RADIUS = 0.05f, MAX_RADIUS = 0.25f;
+	private final static float MAX_VELOCITY = 0.01f;
 	
 	private float posX, posY, posZ;
 	private float radius;
@@ -45,14 +46,55 @@ public class Particle {
 		gl.glPopMatrix();
 	}
 	
+	public void setVelocity(float x, float y, float z)
+	{
+		velX = x;
+		velY = y;
+		velZ = z;
+	}
+	
+	public void moveParticle()
+	{
+		posX += velX;
+		posY += velY;
+		posZ += velZ;
+	}
+	
+	public float getPosX()
+	{
+		return posX;
+	}
+	
+	public float getPosY()
+	{
+		return posY;
+	}
+	
+	public float getPosZ()
+	{
+		return posZ;
+	}
+	
+	public float getRadius()
+	{
+		return radius;
+	}
+	
 	public static Particle genRandParticle(WorldBox wBox)
 	{
 		Particle newParticle = null;
-		float x, y, z, radius;
+		float x, y, z, radius, velX, velY, velZ;
 		
 		radius = ((float)Math.random() * (MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
-		x = ((float)Math.random()) * (wBox.getSizeX() - 2*radius); //TODO: Finish this up
+		x = ((float)Math.random()) * (wBox.getSizeX() - 2*radius) + wBox.getPosX();
+		y = ((float)Math.random()) * (wBox.getSizeY() - 2*radius) + wBox.getPosY();
+		z = ((float)Math.random()) * (wBox.getSizeZ() - 2*radius) + wBox.getPosZ();
+		velX = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
+		velY = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
+		velZ = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
 		
+		newParticle = new Particle(x, y, z, radius);
+		newParticle.setVelocity(velX, velY, velZ);
 		
 		return newParticle;
 	}

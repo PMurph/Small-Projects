@@ -2,6 +2,7 @@ package particles;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,19 +25,21 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 	private final GLU glUtils = new GLU();
 	private final float FIELD_OF_VIEW = 45, DEFAULT_NEAR = 0.5f, DEFAULT_FAR = 5;
 	private final float MAX_ROTATIONAL_SPEED = 0.1f;
-	private final static float DEFAULT_CAMERA_DISTANCE = 2.0f;
-	private final static float DEFAULT_SIZE_OFFSET = 0.25f;
+	private final static int NUM_PARTICLES = 10;
 	
 	public final static float[] DEFUALT_FACE_COLOUR = new float[] { 0.5f, 0.5f, 0.5f, 1.0f };
 	public final static float[] DEFAULT_OUTLINE_COLOUR = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
 	public final static float DEFAULT_OUTLINE_WIDTH = 4.0f;
+	public final static float DEFAULT_CAMERA_DISTANCE = 2.0f;
+	public final static float DEFAULT_SIZE_OFFSET = 0.25f;
 	
 	private int width, height;
 	private float aspect;
 	private WorldBox worldBox;
-	private Particle testParticle; //TODO: this is just a test, remove later
+	private CollisionDetector cDetect;
 	private Quaternion cameraQuat, cameraUpQuat;
 	private float deltaX, deltaY;
+	private ArrayList<Particle> particles;
 	
 	public ParticleCanvas(GLCapabilities capab) {
 		super(capab);
@@ -58,13 +61,15 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		
+		particles = new ArrayList<>();
 		worldBox = new WorldBox(0.0f, 0.0f, 0.0f, DEFAULT_CAMERA_DISTANCE + DEFAULT_SIZE_OFFSET, DEFAULT_CAMERA_DISTANCE + DEFAULT_SIZE_OFFSET, 
 				DEFAULT_CAMERA_DISTANCE + DEFAULT_SIZE_OFFSET);
-		testParticle = new Particle(0, 0, 0, 0.25f);
+		cDetect = new CollisionDetector(worldBox);
 		cameraQuat = new Quaternion(0.0f, 0.0f, 0.0f, -2.0f);
 		cameraUpQuat = new Quaternion(0.0f, 0.0f, 1.0f, 0.0f);
 		
 		deltaX = 0.0f; deltaY = 0.0f;
+		generateParticles();
 		
 		(new Timer()).scheduleAtFixedRate(new TimerTask() {
 			public void run() {
@@ -122,6 +127,14 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 	 * ========================================================
 	 */
 	
+	private void drawParticles(GL2 gl)
+	{
+		for(Particle part: particles)
+		{
+			part.draw(gl, glUtils);
+		}
+	}
+	
 	private float getDelta(int winDimension, int winPos)
 	{
 		float delta = 0.0f;
@@ -148,6 +161,11 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 	private void update()
 	{
 		rotateCamera();
+		
+		for(Particle part: particles)
+		{
+			part.moveParticle();
+		}
 	}
 	
 	private void rotateCamera()
@@ -181,12 +199,6 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		cameraUpQuat = new Quaternion(0.0f, cameraUpQuat.getX(), cameraUpQuat.getY(), cameraUpQuat.getZ());
 		cameraUpQuat.normalize();
 		
-		
-		System.out.println("Horizontal Axis: " + horizontalAxis.getX() + ", " + horizontalAxis.getY() + ", " + horizontalAxis.getZ());
-		/*
-		System.out.println("Camera X angle change: " + cameraXAngleChange);
-		System.out.println("Temp: " + temp.getW() + ", " + temp.getX() + ", " + temp.getY() + ", " + temp.getZ());
-		System.out.println("Camera Quat: " + cameraQuat.getW() + ", " + cameraQuat.getX() + ", " + cameraQuat.getY() + ", " + cameraQuat.getZ());*/
 	}
 	
 	private void initParticleCanvas()
@@ -211,7 +223,7 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		gl.glColor3f(1.0f, 1.0f, 1.0f);
 		
 		worldBox.drawWorld(gl);
-		testParticle.draw(gl, glUtils);
+		drawParticles(gl);
 				
 		gl.glFlush();
 	}
@@ -223,5 +235,17 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		
 		glUtils.gluPerspective(FIELD_OF_VIEW, aspect, DEFAULT_NEAR, DEFAULT_FAR);
 	}
-
+	
+	private void generateParticles()
+	{
+		int i;
+		Particle newParticle;
+		
+		for(i = 0; i < NUM_PARTICLES; i++)
+		{
+			newParticle = Particle.genRandParticle(worldBox);
+			particles.add(newParticle);
+			cDetect.registerParticle(newParticle);
+		}
+	}
 }

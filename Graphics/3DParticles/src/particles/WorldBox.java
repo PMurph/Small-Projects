@@ -63,17 +63,17 @@ public class WorldBox {
 	
 	public float getPosX()
 	{
-		return -1.0f + this.positionX;
+		return -1.0f + positionX;
 	}
 	
-	public float getPoxY()
+	public float getPosY()
 	{
-		return -1.0f + this.positionY;
+		return -1.0f + positionY;
 	}
 	
 	public float getPosZ()
 	{
-		return -1.0f + this.positionZ;
+		return -1.0f + positionZ;
 	}
 	
 	private Transformation initModelTransformation() {
