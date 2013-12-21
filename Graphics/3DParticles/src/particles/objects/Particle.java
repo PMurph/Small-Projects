@@ -4,6 +4,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
+import particles.CollisionDetector;
 import particles.WorldBox;
 
 public class Particle {
@@ -11,7 +12,7 @@ public class Particle {
 	private final static int DEFAULT_STACKS = 23;
 	private final static float DEFAULT_COLOUR[] = new float[] { 0.25f, 0.25f, 0.25f, 1.0f };
 	private final static float MIN_RADIUS = 0.05f, MAX_RADIUS = 0.25f;
-	private final static float MAX_VELOCITY = 0.01f;
+	private final static float MAX_VELOCITY = 0.05f;
 	
 	private float posX, posY, posZ;
 	private float radius;
@@ -80,21 +81,54 @@ public class Particle {
 		return radius;
 	}
 	
-	public static Particle genRandParticle(WorldBox wBox)
+	public float getVelX()
+	{
+		return velX;
+	}
+	
+	public float getVelY()
+	{
+		return velY;
+	}
+	
+	public float getVelZ()
+	{
+		return velZ;
+	}
+	
+	public void setVelX(float newVelX)
+	{
+		velX = newVelX;
+	}
+	
+	public void setVelY(float newVelY)
+	{
+		velY = newVelY;
+	}
+	
+	public void setVelZ(float newVelZ)
+	{
+		velZ = newVelZ;
+	}
+	
+	public static Particle genRandParticle(WorldBox wBox, CollisionDetector cDetect)
 	{
 		Particle newParticle = null;
 		float x, y, z, radius, velX, velY, velZ;
 		
-		radius = ((float)Math.random() * (MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
-		x = ((float)Math.random()) * (wBox.getSizeX() - 2*radius) + wBox.getPosX();
-		y = ((float)Math.random()) * (wBox.getSizeY() - 2*radius) + wBox.getPosY();
-		z = ((float)Math.random()) * (wBox.getSizeZ() - 2*radius) + wBox.getPosZ();
-		velX = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
-		velY = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
-		velZ = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
-		
-		newParticle = new Particle(x, y, z, radius);
-		newParticle.setVelocity(velX, velY, velZ);
+		do
+		{
+			radius = ((float)Math.random() * (MAX_RADIUS - MIN_RADIUS)) + MIN_RADIUS;
+			x = ((float)Math.random()) * (wBox.getSizeX() - 2*radius) + wBox.getPosX();
+			y = ((float)Math.random()) * (wBox.getSizeY() - 2*radius) + wBox.getPosY();
+			z = ((float)Math.random()) * (wBox.getSizeZ() - 2*radius) + wBox.getPosZ();
+			velX = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
+			velY = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
+			velZ = ((float)Math.random() * (2 * MAX_VELOCITY)) - MAX_VELOCITY;
+			
+			newParticle = new Particle(x, y, z, radius);
+			newParticle.setVelocity(velX, velY, velZ);
+		} while(cDetect.collisionWithParticle(newParticle));
 		
 		return newParticle;
 	}

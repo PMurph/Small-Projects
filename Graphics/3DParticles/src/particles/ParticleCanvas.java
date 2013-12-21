@@ -74,6 +74,7 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		(new Timer()).scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				update();
+				checkCollisions();
 				repaint();
 			}
 		}, 1000, 1000/60);
@@ -243,9 +244,72 @@ public class ParticleCanvas extends GLCanvas implements GLEventListener, MouseMo
 		
 		for(i = 0; i < NUM_PARTICLES; i++)
 		{
-			newParticle = Particle.genRandParticle(worldBox);
+			newParticle = Particle.genRandParticle(worldBox, cDetect);
 			particles.add(newParticle);
 			cDetect.registerParticle(newParticle);
+		}
+	}
+	
+	private void checkCollisions()
+	{
+		int i;
+		Particle currPart;
+		
+		for(i = 0; i < particles.size(); i++)
+		{
+			currPart = particles.get(i);
+			
+			checkForWallCollisions(currPart);
+		}
+		
+	}
+	
+	private void checkForWallCollisions(Particle currPart)
+	{
+		checkTopAndBottom(currPart);
+		checkLeftAndRight(currPart);
+		checkFrontAndBack(currPart);
+	}
+	
+	private void checkTopAndBottom(Particle currPart)
+	{
+		WallHit wallHit = cDetect.collisionWithTopOrBottom(currPart);
+		
+		if(wallHit == WallHit.TOP && currPart.getVelY() > 0)
+		{
+			currPart.setVelY(-currPart.getVelY());
+		}
+		else if(wallHit == WallHit.BOTTOM && currPart.getVelY() < 0)
+		{
+			currPart.setVelY(-currPart.getVelY());
+		}
+	}
+	
+	private void checkLeftAndRight(Particle currPart)
+	{
+		WallHit wallHit = cDetect.collisionWithLeftOrRight(currPart);
+		
+		if(wallHit == WallHit.RIGHT && currPart.getVelX() > 0)
+		{
+			currPart.setVelX(-currPart.getVelX());
+		}
+		else if(wallHit == WallHit.LEFT && currPart.getVelX() < 0)
+		{
+			currPart.setVelX(-currPart.getVelX());
+		}
+	}
+	
+	private void checkFrontAndBack(Particle currPart)
+	{
+		WallHit wallHit = cDetect.collisionWithFrontOrBack(currPart);
+		
+		if(wallHit == WallHit.BACK && currPart.getVelZ() > 0)
+		{
+			currPart.setVelZ(-currPart.getVelZ());
+		}
+		else if(wallHit == WallHit.FRONT && currPart.getVelZ() < 0)
+		{
+			currPart.setVelZ(-currPart.getVelZ());
 		}
 	}
 }
