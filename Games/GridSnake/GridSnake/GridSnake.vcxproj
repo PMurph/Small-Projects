@@ -16,6 +16,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="main.h" />
