@@ -1,0 +1,11 @@
+﻿Build started 1/2/2014 6:18:11 PM.
+     1>Project "E:\Development\Small-Projects\Games\GridSnake\GridSnake\GridSnake.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         Z:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GridCell.cpp
+         GridCell.cpp
+     1>e:\development\small-projects\games\gridsnake\gridsnake\gridcell.cpp(10): error C2065: 'state' : undeclared identifier
+     1>Done Building Project "E:\Development\Small-Projects\Games\GridSnake\GridSnake\GridSnake.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.64
