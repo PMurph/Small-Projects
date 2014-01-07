@@ -13,12 +13,15 @@
   <ItemGroup>
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridCell.cpp" />
+    <ClCompile Include="ListDrawer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="Drawer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridCell.h" />
+    <ClInclude Include="ListDrawer.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,5 +1,4 @@
-#ifndef __GRID_H
-#define __GRID_H
+#pragma once
 
 #include "main.h"
 #include "GridCell.h"
@@ -27,6 +26,4 @@ public:
 
 const int GRID_PADDING_X = 10;
 const int GRID_PADDING_Y = 10;
-
-#endif
 

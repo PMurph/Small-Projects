@@ -1,9 +1,15 @@
 #include "main.h"
 
+static void initGlutWindow();
+static void displayGame();
+static void setupProjection();
+static void setupModelView();
+static void initGlSettings();
+
 static GLfloat aspectRatio;
 static GLint width, height;
 
-void initGlutWindow()
+static void initGlutWindow()
 {
 	glutInitWindowPosition(INIT_WIN_X_POS, INIT_WIN_Y_POS);
 	glutInitWindowSize(INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
@@ -13,12 +19,45 @@ void initGlutWindow()
 	height = INIT_WIN_HEIGHT;
 }
 
+static void initGlSettings()
+{
+	glClearColor(static_cast<GLclampf>(0.7), static_cast<GLclampf>(0.7), static_cast<GLclampf>(0.7), static_cast<GLclampf>(1.0));
+}
+
+static void displayGame()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	setupProjection();
+	setupModelView();
+
+	glFlush();
+	glutSwapBuffers();
+}
+
+static void setupProjection()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluOrtho2D(0, width, 0, height);
+}
+
+static void setupModelView()
+{
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
 int main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
 	initGlutWindow();
+	initGlSettings();
 
+	glutDisplayFunc(displayGame);
 	glutMainLoop();
 
 	return 0;

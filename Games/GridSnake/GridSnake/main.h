@@ -1,5 +1,4 @@
-#ifndef __MAIN_H
-#define __MAIN_H
+#pragma once
 
 #include <Windows.h>
 #include <GL\glut.h>
@@ -7,6 +6,7 @@
 #include <math.h>
 
 #include "Drawable.h"
+#include "Drawer.h"
 
 const GLint INIT_WIN_WIDTH = 600;
 const GLint INIT_WIN_HEIGHT = 400;
@@ -19,5 +19,3 @@ const char GAME_WINDOW_TITLE[] = "Grid Snake";
 const GLfloat getAspectRatio();
 const GLint getWidth();
 const GLint getHeight();
-
-#endif

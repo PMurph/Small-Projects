@@ -1,5 +1,4 @@
-#ifndef __GRID_CELL_H
-#define __GRID_CELL_H
+#pragma once
 
 #include "main.h"
 
@@ -43,6 +42,4 @@ public:
 
 const GLfloat WALL_COLOUR[] = { 0.0, 0.0, 0.0, 1.0 };
 const GLfloat EMPTY_COLOUR[] = { 1.0, 1.0, 1.0, 1.0 };
-
-#endif
 
