@@ -17,6 +17,7 @@ private:
 	static GLfloat cellSize;
 
 	void setColour() const;
+	void setCellOutLineColour() const;
 public:
 	GridCell(void)
 		:state(EMPTY) {};
@@ -40,6 +41,7 @@ public:
 	}
 };
 
-const GLfloat WALL_COLOUR[] = { 0.0, 0.0, 0.0, 1.0 };
-const GLfloat EMPTY_COLOUR[] = { 1.0, 1.0, 1.0, 1.0 };
+const GLfloat WALL_COLOUR[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat EMPTY_COLOUR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat OUTLINE_COLOUR[] = { 0.7f, 0.7f, 0.7f, 1.0f };
 

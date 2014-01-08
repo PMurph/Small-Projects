@@ -103,7 +103,7 @@ void Grid::initGridCells()
 		for( i = 1; i < gridHeight - 1; i++)
 		{
 			cells[i * gridWidth].setWall();
-			cells[i * (gridWidth + 1) - 1].setWall();
+			cells[(i + 1) * gridWidth - 1].setWall();
 		}
 	}
 }

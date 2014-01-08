@@ -1,15 +1,14 @@
 #pragma once
 
-#include "main.h"
 #include "GridCell.h"
 
 class Grid:
 	public Drawable
 {
 private:
+	GridCell * cells;
 	int gridWidth, gridHeight;
 	bool horizontalPadding, verticalPadding;
-	GridCell * cells;
 
 	void initGrid();
 	void initGridCells();

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Drawer.h"
+
 #include <list>
+#include <assert.h>
 
 class ListDrawer:
 	public Drawer
@@ -11,8 +13,8 @@ private:
 public:
 	ListDrawer(void);
 	~ListDrawer(void);
-	virtual void registerDrawable(const Drawable * toRegister);
-	virtual void unregisterDrawable(const Drawable * toUnRegister);
-	virtual void drawAll() const;
+	void registerDrawable(const Drawable * toRegister);
+	void unregisterDrawable(const Drawable * toUnRegister);
+	void drawAll() const;
 };
 

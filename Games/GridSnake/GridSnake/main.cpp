@@ -5,9 +5,12 @@ static void displayGame();
 static void setupProjection();
 static void setupModelView();
 static void initGlSettings();
+static void initGame();
+static void cleanUpGame();
 
 static GLfloat aspectRatio;
 static GLint width, height;
+static Game * game;
 
 static void initGlutWindow()
 {
@@ -24,12 +27,19 @@ static void initGlSettings()
 	glClearColor(static_cast<GLclampf>(0.7), static_cast<GLclampf>(0.7), static_cast<GLclampf>(0.7), static_cast<GLclampf>(1.0));
 }
 
+static void initGame()
+{
+	game = new Game();
+}
+
 static void displayGame()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	setupProjection();
 	setupModelView();
+
+	game->drawGame();
 
 	glFlush();
 	glutSwapBuffers();
@@ -49,6 +59,11 @@ static void setupModelView()
 	glLoadIdentity();
 }
 
+static void cleanUpGame()
+{
+	delete game;
+}
+
 int main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
@@ -56,9 +71,12 @@ int main(int argc, char* argv[])
 
 	initGlutWindow();
 	initGlSettings();
+	initGame();
 
 	glutDisplayFunc(displayGame);
 	glutMainLoop();
+
+	cleanUpGame();
 
 	return 0;
 }

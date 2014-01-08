@@ -9,11 +9,15 @@ ListDrawer::ListDrawer(void)
 
 ListDrawer::~ListDrawer(void)
 {
+	drawables.clear();
 }
 
 void ListDrawer::registerDrawable(const Drawable * toRegister)
 {
-	drawables.push_back(toRegister);
+	assert(toRegister != NULL);
+
+	if(toRegister != NULL)
+		drawables.push_back(toRegister);
 }
 
 void ListDrawer::unregisterDrawable(const Drawable * toUnRegister)
@@ -21,17 +25,22 @@ void ListDrawer::unregisterDrawable(const Drawable * toUnRegister)
 	std::list<const Drawable *>::const_iterator it;
 	bool matches = false;
 
-	for(it = drawables.begin(); it != drawables.end() && matches == false; it++)
-	{
-		if((*it) == toUnRegister)
-		{
-			matches = true;
-		}
-	}
+	assert(toUnRegister != NULL);
 
-	if(matches == true)
+	if(toUnRegister != NULL)
 	{
-		drawables.erase(it);
+		for(it = drawables.begin(); it != drawables.end() && matches == false; it++)
+		{
+			if((*it) == toUnRegister)
+			{
+				matches = true;
+			}
+		}
+
+		if(matches == true)
+		{
+			drawables.erase(it);
+		}
 	}
 }
 

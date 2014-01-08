@@ -7,6 +7,7 @@
 
 #include "Drawable.h"
 #include "Drawer.h"
+#include "Game.h"
 
 const GLint INIT_WIN_WIDTH = 600;
 const GLint INIT_WIN_HEIGHT = 400;

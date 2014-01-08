@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="ListDrawer.cpp" />
@@ -19,6 +20,7 @@
   <ItemGroup>
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="ListDrawer.h" />
