@@ -14,15 +14,25 @@ Game::~Game(void)
 	delete gameGrid;
 }
 
+void Game::drawGame() const
+{
+	gameDrawer->drawAll();
+}
+
+void Game::windowReshaped()
+{
+	gameGrid->calcGridCellSize();
+}
+
+/* ===============================
+ * Private Methods
+ * ===============================
+ */
+
 void Game::initGame()
 {
 	gameDrawer = new ListDrawer();
 	gameGrid = new Grid(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	
 	gameDrawer->registerDrawable(gameGrid);
-}
-
-void Game::drawGame() const
-{
-	gameDrawer->drawAll();
 }

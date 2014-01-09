@@ -17,6 +17,5 @@ const GLint INIT_WIN_Y_POS = 0;
 
 const char GAME_WINDOW_TITLE[] = "Grid Snake";
 
-const GLfloat getAspectRatio();
 const GLint getWidth();
 const GLint getHeight();

@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <iostream>
 
 Grid::Grid(const int width, const int height)
 {
@@ -19,7 +20,9 @@ Grid::~Grid(void)
 void Grid::draw() const
 {
 	int i, j;
-	const GLfloat cellSize = GridCell::getCellSize();
+	const GLfloat cellSize = floor(GridCell::getCellSize()); 
+
+	centerGridTransformation();
 
 	for( i = 0; i < gridHeight; i++)
 	{
@@ -36,12 +39,7 @@ void Grid::draw() const
 	}
 }
 
-/* ===============================
- * Private Methods
- * ===============================
- */
-
-void Grid::initGrid()
+void Grid::calcGridCellSize()
 {
 	const int width = getWidth(), height = getHeight();
 	float cellToWidthRatio, cellToHeightRatio;
@@ -51,17 +49,27 @@ void Grid::initGrid()
 
 	if(cellToWidthRatio < cellToHeightRatio)
 	{
-		initGridCellSize(cellToWidthRatio);
+		setGridCellSize(cellToWidthRatio);
 	}
 	else
 	{
-		initGridCellSize(cellToHeightRatio);
+		setGridCellSize(cellToHeightRatio);
 	}
+}
+
+/* ===============================
+ * Private Methods
+ * ===============================
+ */
+
+void Grid::initGrid()
+{
+	calcGridCellSize();
 
 	initGridCells();
 }
 
-void Grid::initGridCellSize(const GLfloat cellRatio)
+void Grid::setGridCellSize(const GLfloat cellRatio)
 {
 	GLfloat cellSize;
 
@@ -69,9 +77,9 @@ void Grid::initGridCellSize(const GLfloat cellRatio)
 
 	if(cellRatio != 0.0)
 	{
-		cellSize = floor(cellRatio);
+		cellSize = cellRatio;
 
-		GridCell::setSize(cellSize);
+		GridCell::setSize(cellRatio);
 	}
 	else
 	{
@@ -145,4 +153,38 @@ void Grid::determineGridPadding(const GLfloat cellSize)
 		if(2 * GRID_PADDING_Y + cellSize * gridHeight < height)
 			verticalPadding = true;
 	}
+}
+
+void Grid::centerGridTransformation() const
+{
+	GLint screenWidth, screenHeight;
+	GLfloat gridPxWidth, gridPxHeight;
+	GLfloat cellSize;
+	GLfloat freeHorizontalSpace, freeVerticalSpace;
+	GLfloat translateX = 0, translateY = 0;
+
+	screenWidth = getWidth();
+	screenHeight = getHeight();
+
+	cellSize = GridCell::getCellSize();
+
+	gridPxWidth = gridWidth * cellSize;
+	gridPxHeight = gridHeight * cellSize;
+
+	if(horizontalPadding)
+		gridPxWidth += 2 * GRID_PADDING_X;
+
+	if(verticalPadding)
+		gridPxHeight += 2 * GRID_PADDING_Y;
+
+	freeHorizontalSpace = screenWidth - gridPxWidth;
+	freeVerticalSpace = screenHeight - gridPxHeight;
+
+	if(freeHorizontalSpace > 0)
+		translateX = freeHorizontalSpace / 2.0f;
+
+	if(freeVerticalSpace > 0)
+		translateY = freeVerticalSpace / 2.0f;
+
+	glTranslatef(translateX, translateY, 0.0f);
 }

@@ -2,13 +2,13 @@
 
 static void initGlutWindow();
 static void displayGame();
+static void windowReshape();
 static void setupProjection();
 static void setupModelView();
 static void initGlSettings();
 static void initGame();
 static void cleanUpGame();
 
-static GLfloat aspectRatio;
 static GLint width, height;
 static Game * game;
 
@@ -30,6 +30,16 @@ static void initGlSettings()
 static void initGame()
 {
 	game = new Game();
+}
+
+static void windowReshape(int newWidth, int newHeight)
+{
+	width = static_cast<GLint>(newWidth);
+	height = static_cast<GLint>(newHeight);
+
+	game->windowReshaped();
+
+	displayGame();
 }
 
 static void displayGame()
@@ -74,16 +84,12 @@ int main(int argc, char* argv[])
 	initGame();
 
 	glutDisplayFunc(displayGame);
+	glutReshapeFunc(windowReshape);
 	glutMainLoop();
 
 	cleanUpGame();
 
 	return 0;
-}
-
-const float getAspectRatio()
-{
-	return aspectRatio;
 }
 
 const int getWidth()

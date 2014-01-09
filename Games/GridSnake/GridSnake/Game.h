@@ -4,6 +4,9 @@
 #include "ListDrawer.h"
 #include "Grid.h"
 
+class Grid;
+class Drawer;
+
 class Game
 {
 private:
@@ -14,6 +17,8 @@ private:
 public:
 	Game(void);
 	~Game(void);
+
+	void windowReshaped();
 
 	void drawGame() const;
 };
