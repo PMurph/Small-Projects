@@ -3,6 +3,7 @@
 #include "Drawer.h"
 #include "ListDrawer.h"
 #include "Grid.h"
+#include <list>
 
 class Grid;
 class Drawer;
@@ -10,6 +11,7 @@ class Drawer;
 class Game
 {
 private:
+	std::list<GridCell *> snakeCells;
 	Grid * gameGrid;
 	Drawer * gameDrawer;
 

@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "GridCell.h"
+#include <list>
 
 class GridCell;
 
@@ -18,15 +19,16 @@ private:
 
 	void setGridCellSize(const GLfloat cellRatio);
 	void determineGridPadding(const GLfloat cellSize);
+	void clearGrid();
 
 	void centerGridTransformation() const;
-
 	const float calcCellToDimensionRatio(const int numCells, const int dimSize, const int paddingSize) const; 
 public:
 	Grid(const int width, const int height);
 	~Grid(void);
 
 	void calcGridCellSize();
+	std::list<GridCell *> generateNewSnake();
 
 	void draw() const;
 };

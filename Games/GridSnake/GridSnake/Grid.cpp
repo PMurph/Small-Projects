@@ -57,6 +57,16 @@ void Grid::calcGridCellSize()
 	}
 }
 
+std::list<GridCell *> Grid::generateNewSnake()
+{
+	/* TODO:	1. Generate 3 snake body parts
+	 *			2. Connect the 2nd last to the first, and last to the 2nd last
+	 *			3. Set last one to snake head
+	 *			4. Determine gridCells that snake will be positioned at
+	 *			5. Set gridCell's occupants to the newly generated snake body parts
+	 */
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -187,4 +197,17 @@ void Grid::centerGridTransformation() const
 		translateY = freeVerticalSpace / 2.0f;
 
 	glTranslatef(translateX, translateY, 0.0f);
+}
+
+void Grid::clearGrid()
+{
+	int i, j;
+
+	for(i = 1; i < gridHeight; i++)
+	{
+		for(j = 1; j < gridWidth; j++)
+		{
+			cells[j * gridWidth + i].clearCell();
+		}
+	}
 }

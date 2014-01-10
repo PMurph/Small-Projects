@@ -34,6 +34,8 @@ static void initGame()
 
 static void windowReshape(int newWidth, int newHeight)
 {
+	//TODO: This function is not working correctly
+
 	width = static_cast<GLint>(newWidth);
 	height = static_cast<GLint>(newHeight);
 

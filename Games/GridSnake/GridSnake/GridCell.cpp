@@ -48,7 +48,7 @@ const bool GridCell::isOccupied() const
 {
 	bool occupied = false;
 
-	if(state == WALL || state == FOOD || state == WORM)
+	if(state == WALL || state == FOOD || state == SNAKE)
 	{
 		occupied = true;
 	}
@@ -61,6 +61,52 @@ const CellState GridCell::getState() const
 	return state;
 }
 
+const SnakeBodyPart * GridCell::getOccupant() const
+{
+	return cellOccupant;
+}
+
+const bool GridCell::setOccupant(const SnakeBodyPart * newOccupant)
+{
+	bool occupantSet = false;
+
+	assert( state != WALL );
+
+	if(state != WALL)
+	{
+		if(newOccupant == NULL)
+		{
+			state = EMPTY;
+		}
+		else
+		{
+			state = SNAKE;
+		}
+
+		cellOccupant = newOccupant;
+		occupantSet = true;
+	}
+
+	validateState();
+}
+
+void GridCell::clearCell()
+{
+	assert(state != WALL);
+
+	if(state != WALL)
+	{
+		state = EMPTY;
+		
+		if(cellOccupant != NULL)
+		{
+			delete cellOccupant;
+		}
+	}
+
+	validateState();
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -71,7 +117,16 @@ void GridCell::setColour() const
 	switch( state )
 	{
 	case FOOD:
-	case WORM:
+	case SNAKE:
+		if( cellOccupant->isSnakeHead() )
+		{
+			glColor4f(SNAKE_HEAD_COLOUR[0], SNAKE_HEAD_COLOUR[1], SNAKE_HEAD_COLOUR[2], SNAKE_HEAD_COLOUR[3]);
+		}
+		else
+		{
+			glColor4f(SNAKE_BODY_COLOUR[0], SNAKE_BODY_COLOUR[1], SNAKE_BODY_COLOUR[2], SNAKE_BODY_COLOUR[3]);
+		}
+		break;
 	case WALL:
 		glColor4f(WALL_COLOUR[0], WALL_COLOUR[1], WALL_COLOUR[2], WALL_COLOUR[3]);
 		break;
@@ -85,4 +140,10 @@ void GridCell::setColour() const
 void GridCell::setCellOutLineColour() const
 {
 	glColor4f(OUTLINE_COLOUR[0], OUTLINE_COLOUR[1], OUTLINE_COLOUR[2], OUTLINE_COLOUR[3]);
+}
+
+void GridCell::validateState() const
+{
+	assert( ( state == EMPTY && cellOccupant == NULL ) || ( state == WALL && cellOccupant == NULL ) ||
+		( state == SNAKE && cellOccupant != NULL ) );
 }

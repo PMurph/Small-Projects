@@ -13,8 +13,10 @@ private:
 public:
 	ListDrawer(void);
 	~ListDrawer(void);
+
 	void registerDrawable(const Drawable * toRegister);
 	void unregisterDrawable(const Drawable * toUnRegister);
+
 	void drawAll() const;
 };
 

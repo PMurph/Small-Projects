@@ -16,6 +16,7 @@
     <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="ListDrawer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SnakeBodyPart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawable.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="ListDrawer.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="SnakeBodyPart.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FE5EF813-0128-4F97-BDE6-604A683B0752}</ProjectGuid>
