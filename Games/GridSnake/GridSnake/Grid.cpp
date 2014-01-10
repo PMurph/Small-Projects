@@ -59,12 +59,16 @@ void Grid::calcGridCellSize()
 
 std::list<GridCell *> Grid::generateNewSnake()
 {
+	std::list<GridCell *> snakeCells;
+
 	/* TODO:	1. Generate 3 snake body parts
 	 *			2. Connect the 2nd last to the first, and last to the 2nd last
 	 *			3. Set last one to snake head
 	 *			4. Determine gridCells that snake will be positioned at
 	 *			5. Set gridCell's occupants to the newly generated snake body parts
 	 */
+
+	return snakeCells;
 }
 
 /* ===============================

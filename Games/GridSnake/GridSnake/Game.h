@@ -3,6 +3,7 @@
 #include "Drawer.h"
 #include "ListDrawer.h"
 #include "Grid.h"
+#include "GridCell.h"
 #include <list>
 
 class Grid;

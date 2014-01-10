@@ -88,6 +88,8 @@ const bool GridCell::setOccupant(const SnakeBodyPart * newOccupant)
 	}
 
 	validateState();
+
+	return occupantSet;
 }
 
 void GridCell::clearCell()
