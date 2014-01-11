@@ -61,12 +61,17 @@ const CellState GridCell::getState() const
 	return state;
 }
 
-const SnakeBodyPart * GridCell::getOccupant() const
+const GridCellOccupant * GridCell::getOccupant() const
 {
 	return cellOccupant;
 }
 
-const bool GridCell::setOccupant(const SnakeBodyPart * newOccupant)
+const bool GridCell::addBodyPartToContainer(const SnakeBodyPart * newOccupant)
+{
+	return setOccupant(newOccupant);
+}
+
+const bool GridCell::setOccupant(const GridCellOccupant * newOccupant)
 {
 	bool occupantSet = false;
 
@@ -109,6 +114,19 @@ void GridCell::clearCell()
 	validateState();
 }
 
+
+void GridCell::clearContainer()
+{
+	assert( state == SNAKE );
+	assert( cellOccupant != NULL );
+
+	if( state == SNAKE && cellOccupant != NULL )
+	{
+		state = EMPTY;
+		cellOccupant = NULL;
+	}
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -120,7 +138,7 @@ void GridCell::setColour() const
 	{
 	case FOOD:
 	case SNAKE:
-		if( cellOccupant->isSnakeHead() )
+		if( cellOccupant->getType() == SNAKE_HEAD )
 		{
 			glColor4f(SNAKE_HEAD_COLOUR[0], SNAKE_HEAD_COLOUR[1], SNAKE_HEAD_COLOUR[2], SNAKE_HEAD_COLOUR[3]);
 		}

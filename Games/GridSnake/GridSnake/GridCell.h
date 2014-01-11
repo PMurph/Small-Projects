@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "SnakeBodyPart.h"
+#include "SnakeBobyPartContainer.h"
 
 class SnakeBodyPart;
 
@@ -13,12 +14,12 @@ typedef enum GRID_CELL_STATE {
 } CellState;
 
 class GridCell:
-	public Drawable
+	public Drawable, public SnakeBodyPartContainer
 {
 private:
 	static GLfloat cellSize;
 
-	const SnakeBodyPart * cellOccupant;
+	const GridCellOccupant * cellOccupant;
 	CellState state;
 
 	void setColour() const;
@@ -30,13 +31,15 @@ public:
 		:cellOccupant(NULL), state(EMPTY) {};
 	~GridCell(void);
 
-	const bool setOccupant(const SnakeBodyPart * newOccupant);
+	const bool addBodyPartToContainer(const SnakeBodyPart * bodyPart);
+	const bool setOccupant(const GridCellOccupant * newOccupant);
 	void setWall();
 	void clearCell();
+	void clearContainer();
 
 	const CellState getState() const;
 	const bool isOccupied() const;
-	const SnakeBodyPart * getOccupant() const;
+	const GridCellOccupant * getOccupant() const;
 	void draw() const;
 
 	static const GLfloat getCellSize() 

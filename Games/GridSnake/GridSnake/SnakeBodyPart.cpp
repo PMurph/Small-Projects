@@ -9,7 +9,7 @@ const SnakeBodyPart * SnakeBodyPart::getNextBodyPart() const
 	return nextPart;
 }
 
-const bool SnakeBodyPart::isSnakeHead() const
+const OccupantType SnakeBodyPart::getType() const
 {
-	return isHead;
+	return partType;
 }

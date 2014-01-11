@@ -14,6 +14,13 @@ Grid::Grid(const int width, const int height)
 
 Grid::~Grid(void)
 {
+	int i;
+
+	for( i = 0; i < gridWidth * gridHeight; i++)
+	{
+		delete cells[i];
+	}
+
 	delete[gridWidth * gridHeight] cells;
 }
 
@@ -32,7 +39,7 @@ void Grid::draw() const
 
 			glTranslatef(j * cellSize, i * cellSize, 0.0);
 
-			cells[i * gridWidth + j].draw();
+			cells[i * gridWidth + j]->draw();
 
 			glPopMatrix();
 		}
@@ -57,16 +64,23 @@ void Grid::calcGridCellSize()
 	}
 }
 
+// TODO: Remove since the functionallity has been pushed up to the Game class to increase cohesion in this class
 std::list<GridCell *> Grid::generateNewSnake()
 {
 	std::list<GridCell *> snakeCells;
-
+	SnakeBodyPart * head, * middle, * tail;
 	/* TODO:	1. Generate 3 snake body parts
 	 *			2. Connect the 2nd last to the first, and last to the 2nd last
 	 *			3. Set last one to snake head
 	 *			4. Determine gridCells that snake will be positioned at
 	 *			5. Set gridCell's occupants to the newly generated snake body parts
 	 */
+
+	tail = new SnakeBodyPart(NULL);
+	middle = new SnakeBodyPart(tail);
+	head = new SnakeBodyPart(middle);
+
+	//attachBodyPartsToCells
 
 	return snakeCells;
 }
@@ -114,18 +128,23 @@ void Grid::initGridCells()
 	
 	if(gridWidth > 0 && gridHeight > 0)
 	{
-		cells = new GridCell [gridWidth * gridHeight];
+		cells = new GridCell * [gridWidth * gridHeight];
+
+		for ( i = 0; i < gridWidth * gridHeight; i++ )
+		{
+			cells[i] = new GridCell;
+		}
 
 		for( i = 0; i < gridWidth; i++)
 		{
-			cells[i].setWall();
-			cells[(gridWidth - 1) * gridHeight + i].setWall();
+			cells[i]->setWall();
+			cells[(gridWidth - 1) * gridHeight + i]->setWall();
 		}
 
 		for( i = 1; i < gridHeight - 1; i++)
 		{
-			cells[i * gridWidth].setWall();
-			cells[(i + 1) * gridWidth - 1].setWall();
+			cells[i * gridWidth]->setWall();
+			cells[(i + 1) * gridWidth - 1]->setWall();
 		}
 	}
 }
@@ -211,7 +230,51 @@ void Grid::clearGrid()
 	{
 		for(j = 1; j < gridWidth; j++)
 		{
-			cells[j * gridWidth + i].clearCell();
+			cells[j * gridWidth + i]->clearCell();
 		}
 	}
+}
+
+void Grid::attachBodyPartsToCells(const SnakeBodyPart * head, const SnakeBodyPart * middle, const SnakeBodyPart * tail)
+{
+	int middleVerticalColumn, middleHorizontalRow;
+	int headCellIndex, middleCellIndex, tailCellIndex;
+	GridCell * headCell, * middleCell, * tailCell;
+
+	middleVerticalColumn = static_cast<int>( floor( static_cast<float>( gridWidth ) / 2.0f ) );
+	middleHorizontalRow = static_cast<int>( floor( static_cast<float>( gridHeight ) / 2.0f ) );
+
+	middleCellIndex = getGridCellIndex(middleHorizontalRow, middleVerticalColumn);
+
+	assert( middleCellIndex != -1 && middleCellIndex >= gridWidth && middleCellIndex < (gridWidth - 1) * gridHeight - 1 && (middleCellIndex % gridWidth) > 1 
+		&& (middleCellIndex % gridWidth) < gridWidth - 2 );
+
+	if( middleCellIndex != -1 && middleCellIndex >= gridWidth && middleCellIndex < (gridWidth - 1) * gridHeight - 1 && (middleCellIndex % gridWidth) > 1
+		&& (middleCellIndex % gridWidth) < gridWidth - 2 )
+	{
+		headCellIndex = middleCellIndex - 1;
+		tailCellIndex = middleCellIndex + 1;
+
+		headCell = cells[headCellIndex];
+		middleCell = cells[middleCellIndex];
+		tailCell = cells[tailCellIndex];
+
+	}
+}
+
+const int Grid::getGridCellIndex(const int row, const int column) const
+{
+	int index = -1;
+
+	assert( row >= 0 && row < gridHeight );
+	assert( column >= 0 && column < gridWidth );
+
+	if( row >= 0 && row < gridHeight && column >= 0 && column < gridWidth )
+	{
+		index = row * gridWidth + column;
+
+		assert( index >= 0 && index < gridWidth * gridHeight );
+	}
+
+	return index;
 }
