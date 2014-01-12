@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include <iostream>
+
 static void initGlutWindow();
 static void displayGame();
 static void windowReshape();
@@ -8,6 +10,8 @@ static void setupModelView();
 static void initGlSettings();
 static void initGame();
 static void cleanUpGame();
+static void setupCallbacks();
+static void updateGame(int value);
 
 static GLint width, height;
 static Game * game;
@@ -42,6 +46,21 @@ static void windowReshape(int newWidth, int newHeight)
 	game->windowReshaped();
 
 	displayGame();
+}
+
+static void setupCallbacks()
+{
+	glutDisplayFunc(displayGame);
+	glutReshapeFunc(windowReshape);
+	glutTimerFunc( static_cast<int>( 1000.0f / 60.0f ), updateGame, 0 );
+}
+
+static void updateGame(int value)
+{
+	game->updateGame(value);
+
+	glutPostRedisplay();
+	glutTimerFunc( static_cast<int>( 1000.0f / 60.0f ), updateGame, 0 );
 }
 
 static void displayGame()
@@ -85,8 +104,7 @@ int main(int argc, char* argv[])
 	initGlSettings();
 	initGame();
 
-	glutDisplayFunc(displayGame);
-	glutReshapeFunc(windowReshape);
+	setupCallbacks();
 	glutMainLoop();
 
 	cleanUpGame();

@@ -5,6 +5,7 @@
 #include <list>
 
 class GridCell;
+class SnakeBodyPartContainer;
 
 class Grid:
 	public Drawable
@@ -15,7 +16,6 @@ private:
 	bool horizontalPadding, verticalPadding;
 
 	void centerGridTransformation() const;
-	const int getGridCellIndex(const int row, const int column) const;
 	const float calcCellToDimensionRatio(const int numCells, const int dimSize, const int paddingSize) const; 
 
 	void initGrid();
@@ -23,15 +23,15 @@ private:
 	void setGridCellSize(const GLfloat cellRatio);
 	void determineGridPadding(const GLfloat cellSize);
 	void clearGrid();
-	void attachBodyPartsToCells(const SnakeBodyPart * head, const SnakeBodyPart * middle, const SnakeBodyPart * tail);
 public:
 	Grid(const int width, const int height);
 	~Grid(void);
 
 	void calcGridCellSize();
-	std::list<GridCell *> generateNewSnake();
 
-	
+	SnakeBodyPartContainer * getBodyPartContainer(const int row, const int col) const;	
+	const int getGridWidth() const;
+	const int getGridHeight() const;
 	void draw() const;
 };
 

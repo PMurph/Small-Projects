@@ -5,12 +5,15 @@
 #include "SnakeBobyPartContainer.h"
 
 class SnakeBodyPart;
+class GridCellOccupant;
+class SnakeBodyPartContainer;
+class Drawable;
 
 typedef enum GRID_CELL_STATE {
 	EMPTY,
 	WALL,
-	FOOD,
-	SNAKE,
+	FOOD_CELL,
+	SNAKE_CELL,
 } CellState;
 
 class GridCell:
@@ -40,6 +43,7 @@ public:
 	const CellState getState() const;
 	const bool isOccupied() const;
 	const GridCellOccupant * getOccupant() const;
+	const SnakeBodyPart * getBodyPartInContainer() const;
 	void draw() const;
 
 	static const GLfloat getCellSize() 

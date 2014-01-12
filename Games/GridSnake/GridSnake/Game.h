@@ -6,6 +6,7 @@
 #include "ListDrawer.h"
 #include "Grid.h"
 #include "GridCell.h"
+#include "Snake.h"
 
 class Snake;
 class Grid;
@@ -17,14 +18,18 @@ private:
 	Snake * snake;
 	Grid * gameGrid;
 	Drawer * gameDrawer;
+	int prevTime;
 
 	void initGame();
 	void generateNewSnake();
+	void moveSnake();
 public:
 	Game(void);
 	~Game(void);
 
 	void windowReshaped();
+	void newGame();
+	void updateGame(int value);
 
 	void drawGame() const;
 };

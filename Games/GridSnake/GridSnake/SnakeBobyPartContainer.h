@@ -7,7 +7,8 @@ class SnakeBodyPart;
 class SnakeBodyPartContainer
 {
 public:
-	virtual ~SnakeBodyPartContainer() = 0;
 	virtual const bool addBodyPartToContainer(const SnakeBodyPart * bodyPart) = 0;
 	virtual void clearContainer() = 0;
+
+	virtual const SnakeBodyPart * getBodyPartInContainer() const = 0;
 };

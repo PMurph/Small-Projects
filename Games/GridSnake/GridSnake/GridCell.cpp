@@ -48,7 +48,7 @@ const bool GridCell::isOccupied() const
 {
 	bool occupied = false;
 
-	if(state == WALL || state == FOOD || state == SNAKE)
+	if(state == WALL || state == FOOD_CELL || state == SNAKE_CELL)
 	{
 		occupied = true;
 	}
@@ -85,7 +85,7 @@ const bool GridCell::setOccupant(const GridCellOccupant * newOccupant)
 		}
 		else
 		{
-			state = SNAKE;
+			state = SNAKE_CELL;
 		}
 
 		cellOccupant = newOccupant;
@@ -117,14 +117,25 @@ void GridCell::clearCell()
 
 void GridCell::clearContainer()
 {
-	assert( state == SNAKE );
-	assert( cellOccupant != NULL );
-
-	if( state == SNAKE && cellOccupant != NULL )
+	if( state == SNAKE_CELL && cellOccupant != NULL )
 	{
 		state = EMPTY;
 		cellOccupant = NULL;
 	}
+}
+
+const SnakeBodyPart * GridCell::getBodyPartInContainer() const
+{
+	const SnakeBodyPart * bodyPart = NULL;
+
+	assert( state == SNAKE_CELL && cellOccupant != NULL && ( cellOccupant->getType() == SNAKE || cellOccupant->getType() == SNAKE_HEAD ) );
+
+	if( state == SNAKE_CELL && cellOccupant != NULL && ( cellOccupant->getType() == SNAKE || cellOccupant->getType() == SNAKE_HEAD ) )
+	{
+		bodyPart = dynamic_cast<const SnakeBodyPart *>( cellOccupant );
+	}
+
+	return bodyPart;
 }
 
 /* ===============================
@@ -136,8 +147,8 @@ void GridCell::setColour() const
 {
 	switch( state )
 	{
-	case FOOD:
-	case SNAKE:
+	case FOOD_CELL:
+	case SNAKE_CELL:
 		if( cellOccupant->getType() == SNAKE_HEAD )
 		{
 			glColor4f(SNAKE_HEAD_COLOUR[0], SNAKE_HEAD_COLOUR[1], SNAKE_HEAD_COLOUR[2], SNAKE_HEAD_COLOUR[3]);
@@ -165,5 +176,5 @@ void GridCell::setCellOutLineColour() const
 void GridCell::validateState() const
 {
 	assert( ( state == EMPTY && cellOccupant == NULL ) || ( state == WALL && cellOccupant == NULL ) ||
-		( state == SNAKE && cellOccupant != NULL ) );
+		( state == SNAKE_CELL && cellOccupant != NULL ) );
 }
