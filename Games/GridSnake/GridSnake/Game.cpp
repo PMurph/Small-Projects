@@ -4,7 +4,7 @@
 
 static const int DEFAULT_WIDTH = 20;
 static const int DEFAULT_HEIGHT = 20;
-static const int MILLISEC_BETWEEN_MOVE = 1000;
+static const int MILLISEC_BETWEEN_MOVE = 500;
 
 Game::Game(void)
 {
@@ -33,7 +33,13 @@ void Game::windowReshaped()
 
 void Game::newGame()
 {
+	gameGrid->clearGrid();
+
+	gameRunning = true;
+
 	generateNewSnake();
+
+	prevTime = GetTickCount();
 }
 
 void Game::updateGame(int value)
@@ -47,13 +53,39 @@ void Game::updateGame(int value)
 
 	currTime = GetTickCount();
 
-	std::cout << "Current time: " << currTime << std::endl << "Previous time: " << prevTime << std::endl << "Difference: " << (currTime - prevTime) << std::endl;
-
-	if( currTime - prevTime >= MILLISEC_BETWEEN_MOVE )
+	if( currTime - prevTime >= MILLISEC_BETWEEN_MOVE && gameRunning )
 	{
+		updateSnakeDirection();
 		moveSnake();
 
 		prevTime = GetTickCount();
+	}
+}
+
+void Game::handleInput(const unsigned char key)
+{
+	switch( key )
+	{
+	case ' ':
+		if( !gameRunning )
+			newGame();
+		break;
+	case 'w':
+		if( snake->getDirection() == LEFT || snake->getDirection() == RIGHT )
+			nextDirection = UP;
+		break;
+	case 'a':
+		if( snake->getDirection() == UP || snake->getDirection() == DOWN )
+			nextDirection = LEFT;
+		break;
+	case 'd':
+		if( snake->getDirection() == UP || snake->getDirection() == DOWN )
+			nextDirection = RIGHT;
+		break;
+	case 's':
+		if( snake->getDirection() == LEFT || snake->getDirection() == RIGHT )
+			nextDirection = DOWN;
+		break;
 	}
 }
 
@@ -98,6 +130,7 @@ void Game::generateNewSnake()
 			if( newSnake != NULL )
 			{
 				snake = newSnake;
+				nextDirection = LEFT;
 			}
 		}
 	}
@@ -137,7 +170,26 @@ void Game::moveSnake()
 		{
 			newContainer = gameGrid->getBodyPartContainer(row, col);
 
-			snake->updateSnake(newContainer);
+			if( newContainer->canContainSnakeBodyPart() )
+			{
+				snake->updateSnake(newContainer);
+			}
+			else
+			{
+				gameOver();
+			}
 		}
 	}
+}
+
+void Game::gameOver()
+{
+	gameRunning = false;
+	gameGrid->clearGrid();
+	gameGrid->setGameOverMessage();
+}
+
+void Game::updateSnakeDirection()
+{
+	snake->setDirection( nextDirection );
 }

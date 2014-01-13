@@ -11,6 +11,7 @@ static void initGlSettings();
 static void initGame();
 static void cleanUpGame();
 static void setupCallbacks();
+static void handleInput(unsigned char key, int x, int y);
 static void updateGame(int value);
 
 static GLint width, height;
@@ -53,6 +54,7 @@ static void setupCallbacks()
 	glutDisplayFunc(displayGame);
 	glutReshapeFunc(windowReshape);
 	glutTimerFunc( static_cast<int>( 1000.0f / 60.0f ), updateGame, 0 );
+	glutKeyboardFunc(handleInput);
 }
 
 static void updateGame(int value)
@@ -61,6 +63,11 @@ static void updateGame(int value)
 
 	glutPostRedisplay();
 	glutTimerFunc( static_cast<int>( 1000.0f / 60.0f ), updateGame, 0 );
+}
+
+static void handleInput(unsigned char key, int x, int y)
+{
+	game->handleInput(key);
 }
 
 static void displayGame()

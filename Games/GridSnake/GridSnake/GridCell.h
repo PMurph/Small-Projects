@@ -14,6 +14,7 @@ typedef enum GRID_CELL_STATE {
 	WALL,
 	FOOD_CELL,
 	SNAKE_CELL,
+	MSG_CELL,
 } CellState;
 
 class GridCell:
@@ -39,7 +40,9 @@ public:
 	void setWall();
 	void clearCell();
 	void clearContainer();
+	void setMsgCell();
 
+	const bool canContainSnakeBodyPart() const;
 	const CellState getState() const;
 	const bool isOccupied() const;
 	const GridCellOccupant * getOccupant() const;
@@ -62,4 +65,5 @@ const GLfloat EMPTY_COLOUR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat OUTLINE_COLOUR[] = { 0.7f, 0.7f, 0.7f, 1.0f };
 const GLfloat SNAKE_HEAD_COLOUR[] = { 0.0f, 0.8f, 0.0f, 1.0f };
 const GLfloat SNAKE_BODY_COLOUR[] = { 0.0f, 0.5f, 0.0f, 1.0f };
+const GLfloat MSG_COLOUR[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 

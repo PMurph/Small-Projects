@@ -108,6 +108,7 @@ void GridCell::clearCell()
 		if(cellOccupant != NULL)
 		{
 			delete cellOccupant;
+			cellOccupant = NULL;
 		}
 	}
 
@@ -138,6 +139,28 @@ const SnakeBodyPart * GridCell::getBodyPartInContainer() const
 	return bodyPart;
 }
 
+const bool GridCell::canContainSnakeBodyPart() const
+{
+	bool canContain = false;
+
+	if( state != WALL )
+	{
+		canContain = true;
+	}
+
+	return canContain;
+}
+
+void GridCell::setMsgCell()
+{
+	assert( state == EMPTY );
+
+	if( state == EMPTY )
+	{
+		state = MSG_CELL;
+	}
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -161,6 +184,9 @@ void GridCell::setColour() const
 	case WALL:
 		glColor4f(WALL_COLOUR[0], WALL_COLOUR[1], WALL_COLOUR[2], WALL_COLOUR[3]);
 		break;
+	case MSG_CELL:
+		glColor4f( MSG_COLOUR[0], MSG_COLOUR[1], MSG_COLOUR[2], MSG_COLOUR[3]);
+		break;
 	case EMPTY:
 	default:
 		glColor4f(EMPTY_COLOUR[0], EMPTY_COLOUR[1], EMPTY_COLOUR[2], EMPTY_COLOUR[3]);
@@ -176,5 +202,5 @@ void GridCell::setCellOutLineColour() const
 void GridCell::validateState() const
 {
 	assert( ( state == EMPTY && cellOccupant == NULL ) || ( state == WALL && cellOccupant == NULL ) ||
-		( state == SNAKE_CELL && cellOccupant != NULL ) );
+		( state == SNAKE_CELL && cellOccupant != NULL ) || ( state == MSG_CELL && cellOccupant == NULL ) );
 }

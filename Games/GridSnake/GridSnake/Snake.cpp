@@ -57,6 +57,7 @@ Snake * Snake::createSnake(const int row, const int column, SnakeBodyPartContain
 			newSnake->headRow = row;
 			newSnake->headCol = column;
 			newSnake->numBodyParts = 3;
+			newSnake->currDirection = LEFT;
 		}
 	}
 

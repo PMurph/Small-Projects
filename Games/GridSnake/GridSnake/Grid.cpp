@@ -89,6 +89,134 @@ const int Grid::getGridHeight() const
 	return gridHeight;
 }
 
+void Grid::clearGrid()
+{
+	int i, j;
+
+	for(i = 1; i < gridHeight - 1; i++)
+	{
+		for(j = 1; j < gridWidth - 1; j++)
+		{
+			cells[j * gridWidth + i]->clearCell();
+		}
+	}
+}
+
+void Grid::setGameOverMessage() 
+{
+	int gridRowOffset, gridColOffset;
+
+	assert( gridWidth >= 20 && gridHeight >= 12 );
+
+	gridColOffset = (gridWidth - 18) / 2;
+	gridRowOffset = (gridHeight - 10) / 2; 
+
+	if( gridWidth >= 20 && gridHeight >= 12 )
+	{
+		cells[getIndex(0, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 4, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 12, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 14, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(0, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(1, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 4, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 8, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 14, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(1, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(2, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 4, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 8, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 14, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(2, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(3, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 4, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 8, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 14, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(3, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(4, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 4, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 8, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 12, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 14, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(4, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(6, 1, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 5, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 9, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 13, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(6, 17, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(7, 1, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 5, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 9, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 13, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(7, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(8, 1, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 5, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 9, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 13, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(8, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+		
+		cells[getIndex(9, 1, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 5, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 9, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 13, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(9, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+
+		cells[getIndex(10, 1, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 2, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 3, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 5, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 6, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 7, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 9, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 10, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 11, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 12, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 13, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 15, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 16, gridRowOffset, gridColOffset)]->setMsgCell();
+		cells[getIndex(10, 17, gridRowOffset, gridColOffset)]->setMsgCell();
+	}
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -226,15 +354,7 @@ void Grid::centerGridTransformation() const
 	glTranslatef(translateX, translateY, 0.0f);
 }
 
-void Grid::clearGrid()
+const int Grid::getIndex( const int row, const int col, const int rowOffset, const int colOffset) const
 {
-	int i, j;
-
-	for(i = 1; i < gridHeight; i++)
-	{
-		for(j = 1; j < gridWidth; j++)
-		{
-			cells[j * gridWidth + i]->clearCell();
-		}
-	}
+	return (row + rowOffset) * gridWidth + col + colOffset; 
 }
