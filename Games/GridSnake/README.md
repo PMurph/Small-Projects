@@ -1,6 +1,6 @@
-Keys:
-space - start new game
-w - move up
-a - move left
-s - move down
-d - move right
+Keys: <br />
+space - start new game <br />
+w - move up <br />
+a - move left <br />
+s - move down <br />
+d - move right <br />
