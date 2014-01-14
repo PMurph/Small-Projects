@@ -8,7 +8,7 @@ static const int MILLISEC_BETWEEN_MOVE = 500;
 
 Game::Game(void)
 {
-	prevTime = -1;
+	timeSinceLastMove = -1;
 
 	initGame();
 	newGame();
@@ -39,26 +39,26 @@ void Game::newGame()
 
 	generateNewSnake();
 
-	prevTime = GetTickCount();
+	timeSinceLastMove = GetTickCount();
 }
 
 void Game::updateGame(int value)
 {
 	int currTime;
 
-	if( prevTime == -1 )
+	if( timeSinceLastMove == -1 )
 	{
-		prevTime = GetTickCount();
+		timeSinceLastMove = GetTickCount();
 	}
 
 	currTime = GetTickCount();
 
-	if( currTime - prevTime >= MILLISEC_BETWEEN_MOVE && gameRunning )
+	if( currTime - timeSinceLastMove >= MILLISEC_BETWEEN_MOVE && gameRunning )
 	{
 		updateSnakeDirection();
 		moveSnake();
 
-		prevTime = GetTickCount();
+		timeSinceLastMove = GetTickCount();
 	}
 }
 
@@ -192,4 +192,9 @@ void Game::gameOver()
 void Game::updateSnakeDirection()
 {
 	snake->setDirection( nextDirection );
+}
+
+void Game::generateFood()
+{
+	// TODO: Generate some snake food
 }

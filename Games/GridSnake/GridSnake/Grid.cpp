@@ -217,6 +217,35 @@ void Grid::setGameOverMessage()
 	}
 }
 
+GridCell * Grid::getNonSnakeCell() const
+{
+	GridCell * cell = NULL;
+	int cellIndex;
+
+	cellIndex = getRandomGridIndex();
+
+	assert( cellIndex != -1 );
+
+	if( cellIndex != -1 )
+	{
+		while( cells[cellIndex]->getState() != SNAKE_CELL )
+		{
+			cellIndex = getRandomGridIndex();
+
+			assert( cellIndex != -1 );
+
+			if( cellIndex == -1 )
+				break;
+		}
+
+		cell = cells[cellIndex];
+
+		assert( cell != NULL );
+	}
+
+	return cell;
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -357,4 +386,21 @@ void Grid::centerGridTransformation() const
 const int Grid::getIndex( const int row, const int col, const int rowOffset, const int colOffset) const
 {
 	return (row + rowOffset) * gridWidth + col + colOffset; 
+}
+
+const int Grid::getRandomGridIndex() const
+{
+	int row, col, index = -1;
+
+	row = rand() % (gridHeight - 2);
+	col = rand() % (gridWidth - 2);
+
+	assert( row < gridHeight - 2 && col < gridWidth - 2 );
+
+	if( row < gridHeight - 2 && col < gridWidth - 2 )
+	{
+		index = getIndex( row, col, 1, 1 );
+	}
+
+	return index;
 }

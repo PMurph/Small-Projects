@@ -21,7 +21,7 @@ private:
 	Grid * gameGrid;
 	Drawer * gameDrawer;
 	SnakeDirection nextDirection;
-	int prevTime;
+	int timeSinceLastMove;
 	bool gameRunning;
 
 	void initGame();
@@ -29,6 +29,7 @@ private:
 	void moveSnake();
 	void updateSnakeDirection();
 	void gameOver();
+	void generateFood();
 public:
 	Game(void);
 	~Game(void);
