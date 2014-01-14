@@ -83,9 +83,13 @@ const bool GridCell::setOccupant(const GridCellOccupant * newOccupant)
 		{
 			state = EMPTY;
 		}
-		else
+		else if( newOccupant->getType() == SNAKE || newOccupant->getType() == SNAKE_HEAD )
 		{
 			state = SNAKE_CELL;
+		}
+		else if( newOccupant->getType() == FOOD )
+		{
+			state = FOOD_CELL;
 		}
 
 		cellOccupant = newOccupant;
@@ -168,18 +172,14 @@ void GridCell::setMsgCell()
 
 void GridCell::setColour() const
 {
+	const GLfloat * colour;
+
 	switch( state )
 	{
 	case FOOD_CELL:
 	case SNAKE_CELL:
-		if( cellOccupant->getType() == SNAKE_HEAD )
-		{
-			glColor4f(SNAKE_HEAD_COLOUR[0], SNAKE_HEAD_COLOUR[1], SNAKE_HEAD_COLOUR[2], SNAKE_HEAD_COLOUR[3]);
-		}
-		else
-		{
-			glColor4f(SNAKE_BODY_COLOUR[0], SNAKE_BODY_COLOUR[1], SNAKE_BODY_COLOUR[2], SNAKE_BODY_COLOUR[3]);
-		}
+		colour = cellOccupant->getColour();
+		glColor4f(colour[0], colour[1], colour[2], colour[3]);
 		break;
 	case WALL:
 		glColor4f(WALL_COLOUR[0], WALL_COLOUR[1], WALL_COLOUR[2], WALL_COLOUR[3]);
@@ -202,5 +202,6 @@ void GridCell::setCellOutLineColour() const
 void GridCell::validateState() const
 {
 	assert( ( state == EMPTY && cellOccupant == NULL ) || ( state == WALL && cellOccupant == NULL ) ||
-		( state == SNAKE_CELL && cellOccupant != NULL ) || ( state == MSG_CELL && cellOccupant == NULL ) );
+		( state == SNAKE_CELL && cellOccupant != NULL ) || ( state == MSG_CELL && cellOccupant == NULL ) ||
+		( state == FOOD_CELL && cellOccupant != NULL));
 }

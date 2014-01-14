@@ -2,6 +2,7 @@
 
 #include "GridCellOccupant.h"
 
+#include <GL/glut.h>
 #include <assert.h>
 
 class GridCellOccupant;
@@ -21,5 +22,9 @@ public:
 
 	const SnakeBodyPart * getNextBodyPart() const;
 	const OccupantType getType() const;
+	const GLfloat * getColour() const;
 };
+
+const GLfloat SNAKE_HEAD_COLOUR[] = { 0.0f, 0.8f, 0.0f, 1.0f };
+const GLfloat SNAKE_BODY_COLOUR[] = { 0.0f, 0.5f, 0.0f, 1.0f };
 

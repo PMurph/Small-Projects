@@ -224,11 +224,11 @@ GridCell * Grid::getNonSnakeCell() const
 
 	cellIndex = getRandomGridIndex();
 
-	assert( cellIndex != -1 );
+	assert( cellIndex != -1 && cellIndex < gridWidth * gridHeight );
 
 	if( cellIndex != -1 )
 	{
-		while( cells[cellIndex]->getState() != SNAKE_CELL )
+		while( cells[cellIndex]->getState() == SNAKE_CELL )
 		{
 			cellIndex = getRandomGridIndex();
 
@@ -240,7 +240,7 @@ GridCell * Grid::getNonSnakeCell() const
 
 		cell = cells[cellIndex];
 
-		assert( cell != NULL );
+		assert( cell != NULL && cell->getState() == EMPTY);
 	}
 
 	return cell;

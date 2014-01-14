@@ -63,7 +63,5 @@ public:
 const GLfloat WALL_COLOUR[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat EMPTY_COLOUR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat OUTLINE_COLOUR[] = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat SNAKE_HEAD_COLOUR[] = { 0.0f, 0.8f, 0.0f, 1.0f };
-const GLfloat SNAKE_BODY_COLOUR[] = { 0.0f, 0.5f, 0.0f, 1.0f };
 const GLfloat MSG_COLOUR[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 

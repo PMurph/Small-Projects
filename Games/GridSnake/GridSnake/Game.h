@@ -7,6 +7,7 @@
 #include "Grid.h"
 #include "GridCell.h"
 #include "Snake.h"
+#include "RegularFood.h"
 
 typedef enum SNAKE_DIRECTION SnakeDirection;
 
@@ -23,6 +24,8 @@ private:
 	SnakeDirection nextDirection;
 	int timeSinceLastMove;
 	bool gameRunning;
+
+	Food * generateRandomFoodType() const;
 
 	void initGame();
 	void generateNewSnake();

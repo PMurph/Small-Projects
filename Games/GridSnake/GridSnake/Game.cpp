@@ -38,6 +38,7 @@ void Game::newGame()
 	gameRunning = true;
 
 	generateNewSnake();
+	generateFood();
 
 	timeSinceLastMove = GetTickCount();
 }
@@ -196,5 +197,27 @@ void Game::updateSnakeDirection()
 
 void Game::generateFood()
 {
-	// TODO: Generate some snake food
+	GridCell * foodCell = gameGrid->getNonSnakeCell();
+	Food * newFood = NULL;
+
+	assert( foodCell != NULL && foodCell->getState() == EMPTY );
+
+	if( foodCell != NULL && foodCell->getState() == EMPTY )
+	{
+		newFood = generateRandomFoodType();
+
+		assert( newFood != NULL );
+
+		if( newFood != NULL )
+		{
+			foodCell->setOccupant(newFood);
+		}
+	}
+}
+
+Food * Game::generateRandomFoodType() const
+{
+	Food * newFood = new RegularFood();
+
+	return newFood;
 }
