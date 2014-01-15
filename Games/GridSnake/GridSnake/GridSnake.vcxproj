@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionResolver.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridCell.cpp" />
@@ -21,6 +22,7 @@
     <ClCompile Include="SnakeBodyPart.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionResolver.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Food.h" />
