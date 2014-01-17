@@ -99,6 +99,7 @@ void Game::initGame()
 {
 	gameDrawer = new ListDrawer();
 	gameGrid = new Grid(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	gameCollisionResolver = new CollisionResolver;
 	
 	gameDrawer->registerDrawable(gameGrid);
 }
@@ -173,7 +174,7 @@ void Game::moveSnake()
 
 			if( newContainer->canContainSnakeBodyPart() )
 			{
-				snake->updateSnake(newContainer);
+				snake->updateSnake(newContainer, gameCollisionResolver);
 			}
 			else
 			{

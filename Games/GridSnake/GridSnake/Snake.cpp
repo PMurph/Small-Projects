@@ -74,37 +74,74 @@ const int Snake::getHeadCol() const
 	return headCol;
 }
 
-void Snake::updateSnake(SnakeBodyPartContainer * nextContainer)
+void Snake::updateSnake(SnakeBodyPartContainer * nextContainer, CollisionResolver * collisionResolver)
 {
 	std::list<SnakeBodyPartContainer *> newBodyContainer;
 	const SnakeBodyPart * nextPart = NULL;
+	GridCell * theCell;
 	SnakeBodyPartContainer * currContainer = NULL, * prevContainer = NULL;
 	int i;
 	
+	// hack here, bad design decision in the past led to this
+	theCell = dynamic_cast<GridCell *>( nextContainer );
 	currContainer = nextContainer;
 
-	for( i = 0; i < numBodyParts; i++ )
+	if( theCell->getState() == FOOD_CELL )
 	{
-		prevContainer = currContainer;
+		snakeContainers.front()->getBodyPartInContainer()->setBody();
+		nextPart = new SnakeBodyPart( snakeContainers.front()->getBodyPartInContainer(), true );
+		collisionResolver->registerCollision( theCell, nextPart );
+		collisionResolver->resolveCollision( theCell, this, &Snake::eatFood);
+	}
+	else
+	{
+		for( i = 0; i < numBodyParts; i++ )
+		{
+			prevContainer = currContainer;
 
-		currContainer = snakeContainers.front();
-		snakeContainers.pop_front();
+			currContainer = snakeContainers.front();
+			snakeContainers.pop_front();
 
-		assert( currContainer != NULL );
+			assert( currContainer != NULL );
 
-		nextPart = currContainer->getBodyPartInContainer();
+			nextPart = currContainer->getBodyPartInContainer();
 
-		prevContainer->clearContainer();
-		prevContainer->addBodyPartToContainer( nextPart );
+			prevContainer->clearContainer();
+			prevContainer->addBodyPartToContainer( nextPart );
 
-		newBodyContainer.push_back( prevContainer );
+			newBodyContainer.push_back( prevContainer );
+		}
+
+		currContainer->clearContainer();
+	
+		snakeContainers = newBodyContainer;
+
+		updateSnakePosition();
+	}
+}
+
+bool Snake::eatFood(GridCell * collisionCell, const SnakeBodyPart * collider) 
+{
+	bool foodEaten = false;
+
+	assert( collisionCell != NULL && collider != NULL );
+	assert( collider->getType() == SNAKE_HEAD );
+
+	if( collisionCell != NULL && collider != NULL && collider->getType() == SNAKE_HEAD )
+	{
+		collisionCell->clearCell();
+		collisionCell->setOccupant(collider);
+
+		snakeContainers.push_front(collisionCell);
+
+		numBodyParts++;
+
+		foodEaten = true;
+
+		updateSnakePosition();
 	}
 
-	currContainer->clearContainer();
-
-	snakeContainers = newBodyContainer;
-
-	updateSnakePosition();
+	return foodEaten;
 }
 
 /* ===============================

@@ -5,7 +5,11 @@
 
 #include "GridCellOccupant.h"
 #include "GridCell.h"
+#include "Snake.h"
+#include "SnakeBodyPart.h"
 
+class Snake;
+class SnakeBodyPart;
 class GridCellOccupant;
 
 class CollisionResolver
@@ -17,7 +21,7 @@ public:
 	CollisionResolver(void);
 	~CollisionResolver(void);
 
-	bool resolveCollisions();
+	bool resolveCollision(GridCell * resolutionCell, Snake * snake, bool (Snake::*resolutionFunction)(GridCell * collisionCell, const SnakeBodyPart * collider));
 	void registerCollision(GridCell * collisionCell, const GridCellOccupant * collider);
 	void clearCollisions();
 

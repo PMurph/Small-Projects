@@ -21,13 +21,27 @@ void CollisionResolver::registerCollision(GridCell * collisionCell, const GridCe
 	}
 }
 
-bool CollisionResolver::resolveCollisions()
+bool CollisionResolver::resolveCollision(GridCell * resolutionCell, Snake * snake, bool (Snake::*resolutionFunction)(GridCell * collisionCell, const SnakeBodyPart * collider))
 {
-	bool allResolved = false;
+	bool resolved = false;
+	const GridCellOccupant * collider;
 
-	// TODO: Add code to resolve collisions
+	if( resolutionCell != NULL && snake != NULL && resolutionFunction != NULL )
+	{
+		collider = collisions[resolutionCell];
 
-	return allResolved;
+		assert( collider != NULL );
+
+		if( collider != NULL ) {
+			resolved = (snake->*resolutionFunction)( resolutionCell, dynamic_cast<const SnakeBodyPart *>( collider ) );
+
+			if( resolved ) {
+				collisions[resolutionCell] = NULL;
+			}
+		}
+	}
+
+	return resolved;
 }
 
 void CollisionResolver::clearCollisions()

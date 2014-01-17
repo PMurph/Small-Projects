@@ -14,7 +14,7 @@ const OccupantType SnakeBodyPart::getType() const
 	return partType;
 }
 
-void SnakeBodyPart::setBody()
+void SnakeBodyPart::setBody() const
 {
 	assert( partType == SNAKE_HEAD );
 
