@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include <vector>
+#include <set>
 
 #include "GridCellOccupant.h"
 #include "GridCell.h"
@@ -16,11 +16,12 @@ class CollisionResolver
 {
 private:
 	std::map<GridCell *, const GridCellOccupant *> collisions;
-	std::vector<GridCell *> keys;
+	std::set<GridCell *> keys;
 public:
 	CollisionResolver(void);
 	~CollisionResolver(void);
 
+	bool checkPendingCollision(GridCell * checkedCell);
 	bool resolveCollision(GridCell * resolutionCell, Snake * snake, bool (Snake::*resolutionFunction)(GridCell * collisionCell, const SnakeBodyPart * collider));
 	void registerCollision(GridCell * collisionCell, const GridCellOccupant * collider);
 	void clearCollisions();

@@ -10,13 +10,36 @@ CollisionResolver::~CollisionResolver(void)
 {
 }
 
+bool CollisionResolver::checkPendingCollision(GridCell * checkedCell) 
+{
+	bool hasCollision = false;
+	std::map<GridCell *, const GridCellOccupant *>::const_iterator it;
+	std::map<GridCell *, const GridCellOccupant *>::const_iterator endIt;
+ 
+	assert( checkedCell != NULL );
+
+	if( checkedCell != NULL ) 
+	{
+		it = collisions.find( checkedCell );
+		endIt = collisions.end();
+
+		if( it != endIt )
+		{
+
+			if( collisions[checkedCell] != NULL )
+				hasCollision = true;
+		}
+	}
+
+	return hasCollision;
+}
+
 void CollisionResolver::registerCollision(GridCell * collisionCell, const GridCellOccupant * collider)
 {
 	assert( collisionCell != NULL && collider != NULL && collisionCell->getOccupant() != collider );
 
 	if( collisionCell != NULL && collider != NULL && collisionCell->getOccupant() != collider )
 	{
-		keys.push_back(collisionCell);
 		collisions.insert( std::pair<GridCell *, const GridCellOccupant *>( collisionCell, collider ) );
 	}
 }
@@ -46,7 +69,7 @@ bool CollisionResolver::resolveCollision(GridCell * resolutionCell, Snake * snak
 
 void CollisionResolver::clearCollisions()
 {
-	for(std::vector<GridCell *>::const_iterator it = keys.begin(); it != keys.end(); ++it)
+	for(std::set<GridCell *>::const_iterator it = keys.begin(); it != keys.end(); ++it)
 	{
 		collisions.erase( *it );
 	}

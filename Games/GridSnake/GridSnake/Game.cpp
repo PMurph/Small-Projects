@@ -90,6 +90,16 @@ void Game::handleInput(const unsigned char key)
 	}
 }
 
+void Game::gameOver()
+{
+	gameRunning = false;
+	gameGrid->clearGrid();
+	gameGrid->setGameOverMessage();
+	gameCollisionResolver->clearCollisions();
+
+	delete snake;
+}
+
 /* ===============================
  * Private Methods
  * ===============================
@@ -125,7 +135,7 @@ void Game::generateNewSnake()
 
 		if( headContainer != NULL && middleContainer != NULL && tailContainer != NULL )
 		{
-			newSnake = Snake::createSnake( middleRow, middleColumn - 1, headContainer, middleContainer, tailContainer );
+			newSnake = Snake::createSnake( middleRow, middleColumn - 1, headContainer, middleContainer, tailContainer, this );
 
 			assert(newSnake != NULL);
 
@@ -182,13 +192,6 @@ void Game::moveSnake()
 			}
 		}
 	}
-}
-
-void Game::gameOver()
-{
-	gameRunning = false;
-	gameGrid->clearGrid();
-	gameGrid->setGameOverMessage();
 }
 
 void Game::updateSnakeDirection()

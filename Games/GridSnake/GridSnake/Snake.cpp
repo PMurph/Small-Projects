@@ -27,7 +27,7 @@ void Snake::setDirection(SnakeDirection newDirection)
 	}
 }
 
-Snake * Snake::createSnake(const int row, const int column, SnakeBodyPartContainer * headContainer, SnakeBodyPartContainer * middleContainer, SnakeBodyPartContainer * tailContainer)
+Snake * Snake::createSnake(const int row, const int column, SnakeBodyPartContainer * headContainer, SnakeBodyPartContainer * middleContainer, SnakeBodyPartContainer * tailContainer, Game * theGame)
 {
 	Snake * newSnake = NULL;
 	SnakeBodyPart * head, * middle, * tail;
@@ -58,6 +58,8 @@ Snake * Snake::createSnake(const int row, const int column, SnakeBodyPartContain
 			newSnake->headCol = column;
 			newSnake->numBodyParts = 3;
 			newSnake->currDirection = LEFT;
+
+			newSnake->currGame = theGame;
 		}
 	}
 
@@ -81,6 +83,7 @@ void Snake::updateSnake(SnakeBodyPartContainer * nextContainer, CollisionResolve
 	GridCell * theCell;
 	SnakeBodyPartContainer * currContainer = NULL, * prevContainer = NULL;
 	int i;
+	bool snakeHit = false;
 	
 	// hack here, bad design decision in the past led to this
 	theCell = dynamic_cast<GridCell *>( nextContainer );
@@ -95,6 +98,13 @@ void Snake::updateSnake(SnakeBodyPartContainer * nextContainer, CollisionResolve
 	}
 	else
 	{
+		if( theCell->getState() == SNAKE_CELL )
+		{
+			nextPart = snakeContainers.front()->getBodyPartInContainer();
+			collisionResolver->registerCollision( theCell, nextPart );
+			snakeHit = true;
+		}
+
 		for( i = 0; i < numBodyParts; i++ )
 		{
 			prevContainer = currContainer;
@@ -104,16 +114,38 @@ void Snake::updateSnake(SnakeBodyPartContainer * nextContainer, CollisionResolve
 
 			assert( currContainer != NULL );
 
-			nextPart = currContainer->getBodyPartInContainer();
+			if( currContainer != NULL )
+			{
+				if( !snakeHit || i > 0 )
+				{
+					nextPart = currContainer->getBodyPartInContainer();
 
-			prevContainer->clearContainer();
-			prevContainer->addBodyPartToContainer( nextPart );
+					theCell = dynamic_cast<GridCell *>( prevContainer );
 
-			newBodyContainer.push_back( prevContainer );
+					if( collisionResolver->checkPendingCollision( theCell ) )
+					{
+						collisionResolver->resolveCollision(theCell, this, &Snake::gameOver);
+					}	
+				
+					prevContainer->clearContainer();
+					prevContainer->addBodyPartToContainer( nextPart );
+				}
+				
+				newBodyContainer.push_back( prevContainer );
+			}
 		}
 
-		currContainer->clearContainer();
-	
+		theCell = dynamic_cast<GridCell *>( currContainer );
+		
+		if( collisionResolver->checkPendingCollision( theCell ) )
+		{
+			collisionResolver->resolveCollision(theCell, this, &Snake::moveForward);
+		}
+		else
+		{
+			currContainer->clearContainer();
+		}
+		
 		snakeContainers = newBodyContainer;
 
 		updateSnakePosition();
@@ -142,6 +174,21 @@ bool Snake::eatFood(GridCell * collisionCell, const SnakeBodyPart * collider)
 	}
 
 	return foodEaten;
+}
+
+bool Snake::moveForward(GridCell * collisionCell, const SnakeBodyPart * collider)
+{
+	collisionCell->clearContainer();
+	collisionCell->addBodyPartToContainer(collider);
+
+	return true;
+}
+
+bool Snake::gameOver(GridCell * collisionCell, const SnakeBodyPart * collider)
+{
+	currGame->gameOver();
+
+	return true;
 }
 
 /* ===============================
