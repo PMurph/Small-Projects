@@ -34,7 +34,6 @@ private:
 	void generateNewSnake();
 	void moveSnake();
 	void updateSnakeDirection();
-	void generateFood();
 public:
 	Game(void);
 	~Game(void);
@@ -44,6 +43,7 @@ public:
 	void updateGame(int value);
 	void handleInput(const unsigned char key);
 	void gameOver();
+	void generateFood();
 
 	void drawGame() const;
 };

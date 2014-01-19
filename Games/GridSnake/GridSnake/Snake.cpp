@@ -125,9 +125,10 @@ void Snake::updateSnake(SnakeBodyPartContainer * nextContainer, CollisionResolve
 					if( collisionResolver->checkPendingCollision( theCell ) )
 					{
 						collisionResolver->resolveCollision(theCell, this, &Snake::gameOver);
+						return;
 					}	
 				
-					prevContainer->clearContainer();
+					currContainer->clearContainer();
 					prevContainer->addBodyPartToContainer( nextPart );
 				}
 				
@@ -171,6 +172,8 @@ bool Snake::eatFood(GridCell * collisionCell, const SnakeBodyPart * collider)
 		foodEaten = true;
 
 		updateSnakePosition();
+
+		currGame->generateFood();
 	}
 
 	return foodEaten;
@@ -188,7 +191,7 @@ bool Snake::gameOver(GridCell * collisionCell, const SnakeBodyPart * collider)
 {
 	currGame->gameOver();
 
-	return true;
+	return false;
 }
 
 /* ===============================

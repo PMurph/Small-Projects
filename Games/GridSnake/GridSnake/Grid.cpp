@@ -97,6 +97,7 @@ void Grid::clearGrid()
 	{
 		for(j = 1; j < gridWidth - 1; j++)
 		{
+			std::cout << "i: " << i << ", j: " << j << std::endl;
 			cells[j * gridWidth + i]->clearCell();
 		}
 	}

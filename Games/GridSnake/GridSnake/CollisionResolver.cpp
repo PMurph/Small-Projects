@@ -36,11 +36,22 @@ bool CollisionResolver::checkPendingCollision(GridCell * checkedCell)
 
 void CollisionResolver::registerCollision(GridCell * collisionCell, const GridCellOccupant * collider)
 {
+	std::map<GridCell *, const GridCellOccupant *>::const_iterator it;
+
 	assert( collisionCell != NULL && collider != NULL && collisionCell->getOccupant() != collider );
 
 	if( collisionCell != NULL && collider != NULL && collisionCell->getOccupant() != collider )
 	{
-		collisions.insert( std::pair<GridCell *, const GridCellOccupant *>( collisionCell, collider ) );
+		it = collisions.find( collisionCell );
+
+		if( it != collisions.end() )
+		{
+			collisions[collisionCell] = collider;
+		}
+		else
+		{
+			collisions.insert( std::pair<GridCell *, const GridCellOccupant *>( collisionCell, collider ) );
+		}
 	}
 }
 

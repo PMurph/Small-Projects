@@ -33,6 +33,7 @@ void Game::windowReshaped()
 
 void Game::newGame()
 {
+	gameCollisionResolver = new CollisionResolver;
 	gameGrid->clearGrid();
 
 	gameRunning = true;
@@ -97,7 +98,11 @@ void Game::gameOver()
 	gameGrid->setGameOverMessage();
 	gameCollisionResolver->clearCollisions();
 
+	delete gameCollisionResolver;
 	delete snake;
+
+	gameCollisionResolver = NULL;
+	snake = NULL;
 }
 
 /* ===============================
@@ -109,7 +114,6 @@ void Game::initGame()
 {
 	gameDrawer = new ListDrawer();
 	gameGrid = new Grid(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	gameCollisionResolver = new CollisionResolver;
 	
 	gameDrawer->registerDrawable(gameGrid);
 }
