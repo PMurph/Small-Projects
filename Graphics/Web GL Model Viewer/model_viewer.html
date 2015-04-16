@@ -6,6 +6,8 @@
         
         <script type="text/javascript" src="./glMatrix-0.9.5.min.js"></script>
         
+        <script type="text/javascript" src="./modelRenderer.js"></script>
+        
         <script id="vert_shader" type="x-shader/x-vertex">
             attribute vec3 aVertexPosition;
         
@@ -24,22 +26,9 @@
         </script>
         
         <script type="text/javascript">
-            var gl;
             var shaderProgram;
             var mvMatrix;
             var pMatrix;
-        
-            function initGL(canvas) {
-                try {
-                    gl = canvas.getContext("experimental-webgl");
-                    gl.viewportWidth = canvas.width;
-                    gl.viewportHeight = canvas.height;
-                } catch(e) {
-                }
-                if(!gl) {
-                    console.log("Could not initialize WebGL context");
-                }
-            }
             
             function initShaders() {
                 var fragmentShader = getShader("frag_shader");
@@ -166,7 +155,7 @@
             function webGLStart() {
                 var canvas = document.getElementById("model_viewer_canvas");
                 
-                initGL(canvas);
+                initModelRenderer(canvas);
                 if(gl) {
                     initShaders();
                     initBuffers();
