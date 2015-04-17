@@ -99,22 +99,20 @@ function createBufferFromVertices(vertices, drawType, numVerticesPerItem, numIte
     return buffer;
 }
 
-function drawScene() {
+function initScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+}
+
+function drawScene() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
-    mat4.identity(mvMatrix);
-
-    mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
-    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.numVerticesPerItem, gl.FLOAT, false, 0, 0);
-    setMatrixUniforms();
-    gl.drawArrays(triangleVertexPositionBuffer.drawType, 0, triangleVertexPositionBuffer.numItems);
-                
-    mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
-    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.numVerticesPerItem, gl.FLOAT, false, 0, 0);
-    setMatrixUniforms();
-    gl.drawArrays(squareVertexPositionBuffer.drawType, 0, squareVertexPositionBuffer.numItems);
+    for(var index in sceneObjects) {
+        mvMatrix = sceneObjects[index].modelViewMatrix;
+        gl.bindBuffer(gl.ARRAY_BUFFER, sceneObjects[index].buffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, sceneObjects[index].buffer.numVerticesPerItem, gl.FLOAT, false, 0, 0);
+        setMatrixUniforms();
+        gl.drawArrays(sceneObjects[index].buffer.drawType, 0, sceneObjects[index].buffer.numItems);
+    }
 }

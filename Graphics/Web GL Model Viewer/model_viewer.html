@@ -26,16 +26,26 @@
         </script>
         
         <script type="text/javascript">
-            var triangleVertexPositionBuffer;
-            var squareVertexPositionBuffer;
+            var sceneObjects;
             
-            function initBuffers() {
+            function initSceneObjects() {
+                sceneObjects = [];
+                
+                var modelViewMatrix = mat4.create();
+                mat4.identity(modelViewMatrix);
+                mat4.translate(modelViewMatrix, [-1.5, 0.0, -7.0]);
+                
                 var vertices = [
                     0.0, 1.0, 0.0,
                     -1.0, -1.0, 0.0,
                     1.0, -1.0, 0.0
                 ];
-                triangleVertexPositionBuffer = createBufferFromVertices(vertices, gl.TRIANGLES, 3, 3);
+                var triangleVertexPositionBuffer = createBufferFromVertices(vertices, gl.TRIANGLES, 3, 3);
+                var triangleSceneObject = {buffer: triangleVertexPositionBuffer, modelViewMatrix: modelViewMatrix};
+                
+                modelViewMatrix = mat4.create();
+                mat4.identity(modelViewMatrix);
+                mat4.translate(modelViewMatrix, [1.5, 0.0, -7.0]);
                 
                 vertices = [
                     1.0, 1.0, 0.0,
@@ -43,7 +53,10 @@
                     1.0, -1.0, 0.0,
                     -1.0, -1.0, 0.0
                 ];
-                squareVertexPositionBuffer = createBufferFromVertices(vertices, gl.TRIANGLE_STRIP, 3, 4);
+                var squareVertexPositionBuffer = createBufferFromVertices(vertices, gl.TRIANGLE_STRIP, 3, 4);
+                var squareSceneObject = {buffer: squareVertexPositionBuffer, modelViewMatrix: modelViewMatrix};
+                sceneObjects.push(triangleSceneObject);
+                sceneObjects.push(squareSceneObject);
             }
             
             function setMatrixUniforms() {
@@ -57,8 +70,9 @@
                 initModelRenderer(canvas);
                 if(gl) {
                     initShaders();
-                    initBuffers();
+                    initSceneObjects();
                     initMatrices();
+                    initScene();
                 
                     gl.clearColor(0.0, 0.0, 0.0, 1.0);
                     gl.enable(gl.DEPTH_TEST);
@@ -69,6 +83,12 @@
         </script>
     </head>
     <body onload="webGLStart();">
-        <canvas id="model_viewer_canvas" width="500px" height="500px" />
+        <div id="content">
+            <canvas id="model_viewer_canvas" width="500px" height="500px" />
+            
+            <div>
+                
+            </div>
+        </div>
     </body>
 </html>
