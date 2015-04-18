@@ -80,6 +80,10 @@
                     drawScene();
                 }
             }
+            
+            function updateScene() {
+                console.log("Updating Failed");
+            }
         </script>
         
         <link rel="stylesheet" type="text/css" href="model_viewer.css" />
@@ -91,7 +95,8 @@
             </div>
             
             <div id="model_viewer_inputs">
-                
+                <textarea form="input_form"></textarea>
+                <button onClick="updateScene()">Load Model Data</button>
             </div>
         </div>
     </body>
