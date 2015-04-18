@@ -27,6 +27,7 @@
         
         <script type="text/javascript">
             var sceneObjects;
+            var inputModelDataTextArea;
             
             function initSceneObjects() {
                 sceneObjects = [];
@@ -57,6 +58,8 @@
                 var squareSceneObject = {buffer: squareVertexPositionBuffer, modelViewMatrix: modelViewMatrix};
                 sceneObjects.push(triangleSceneObject);
                 sceneObjects.push(squareSceneObject);
+                
+                inputModelDataTextArea.value = JSON.stringify(sceneObjects);
             }
             
             function setMatrixUniforms() {
@@ -66,6 +69,7 @@
         
             function webGLStart() {
                 var canvas = document.getElementById("model_viewer_canvas");
+                inputModelDataTextArea = document.getElementById("model_viewer_input_textarea");
                 
                 initModelRenderer(canvas);
                 if(gl) {
@@ -95,7 +99,7 @@
             </div>
             
             <div id="model_viewer_inputs">
-                <textarea form="input_form"></textarea>
+                <textarea id="model_viewer_input_textarea" form="input_form"></textarea>
                 <button onClick="updateScene()">Load Model Data</button>
             </div>
         </div>
