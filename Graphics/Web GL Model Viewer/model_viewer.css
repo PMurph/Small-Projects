@@ -1,0 +1,11 @@
+#model_viewer {
+    width: 50em;
+}
+
+#model_viewer_viewport {
+    width: 75%;
+}
+
+#model_viewer_inputs {
+    width: 25%;
+}

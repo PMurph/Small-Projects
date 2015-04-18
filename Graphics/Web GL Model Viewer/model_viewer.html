@@ -81,12 +81,16 @@
                 }
             }
         </script>
+        
+        <link rel="stylesheet" type="text/css" href="model_viewer.css" />
     </head>
     <body onload="webGLStart();">
-        <div id="content">
-            <canvas id="model_viewer_canvas" width="500px" height="500px" />
+        <div id="model_viewer">
+            <div id="model_viewer_viewport">
+                <canvas id="model_viewer_canvas" width="500px" height="500px" />
+            </div>
             
-            <div>
+            <div id="model_viewer_inputs">
                 
             </div>
         </div>
