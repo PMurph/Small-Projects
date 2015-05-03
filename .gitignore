@@ -1,3 +1,8 @@
+/Algorithms/.metadata/
+/Algorithms/RemoteSystemsTempFiles/
+/Algorithms/alg-core/.metadata/
+/Algorithms/alg-core/RemoteSystemsTempFiles/
 /Games/GridSnake/Debug/
 /Games/GridSnake/GridSnake/Debug/
 *.suo
+*.class
