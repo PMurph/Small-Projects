@@ -1,7 +1,9 @@
 package compgeo.point;
 
-public interface Point<E> {
+import compgeo.point.excpt.DimensionOutOfRangeException;
+
+public interface Point {
 	public int getDimension();
 	
-	public E getComponent(int dimension);
+	public Number getComponent(int dimension) throws DimensionOutOfRangeException;
 }
